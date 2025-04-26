@@ -5,7 +5,7 @@ User administration microservice for the ECI-Bienestar platform. Manages user pr
 ## 👥 Authors
 
 * Andrés Felipe Chavarro Plazas
-* Andrés Jacobo Sepulveda Sánchez
+* Andrés Jacobo Sepúlveda Sánchez
 * Camilo Andrés Fernández Días
 * Jesús Alfonso Pinzón Vega
 
