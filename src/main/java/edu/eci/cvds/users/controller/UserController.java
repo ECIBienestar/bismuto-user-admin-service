@@ -37,7 +37,7 @@ public class UserController {
     public ResponseEntity<User> update(@PathVariable Long id,
                                        @RequestBody User update) {
         return repo.findById(id).map(user -> {
-            user.setName(update.getName());
+            user.setFullName(update.getFullName());
             user.setEmail(update.getEmail());
             user.setRole(update.getRole());
             return ResponseEntity.ok(repo.save(user));
