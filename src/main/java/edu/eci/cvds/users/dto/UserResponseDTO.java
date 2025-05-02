@@ -14,6 +14,4 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserResponseDTO extends BaseUserDTO {
-    // Ya no necesitas escribir manualmente el constructor:
-    // Lombok crea un no‑args y un all‑args que incluyen los campos de BaseUserDTO.
 }
