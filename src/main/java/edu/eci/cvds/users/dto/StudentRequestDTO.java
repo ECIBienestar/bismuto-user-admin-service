@@ -1,9 +1,14 @@
 package edu.eci.cvds.users.dto;
 
+import edu.eci.cvds.users.model.User;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 
-public class StudentRequestDTO {
+/**
+ * Payload DTO for creating or updating a Student.
+ * Hereda de UserRequestDTO (y por tanto de BaseUserDTO) todos los campos comunes.
+ */
+public class StudentRequestDTO extends UserRequestDTO {
     @NotBlank
     private String studentCode;
 
