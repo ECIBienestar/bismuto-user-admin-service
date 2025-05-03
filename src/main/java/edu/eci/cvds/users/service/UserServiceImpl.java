@@ -1,6 +1,5 @@
 package edu.eci.cvds.users.service;
 
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,8 +70,8 @@ public class UserServiceImpl implements UserService {
                 dto.getPhone(),
                 dto.getEmail(),
                 Role.valueOf(dto.getRole()),
-                null,             // specialty (solo si aplica)
-                List.of()         // schedule vacío inicialmente
+                null, // specialty (solo si aplica)
+                List.of()     // schedule vacío inicialmente
         );
 
         // Mapear a DTO de respuesta
@@ -114,5 +113,44 @@ public class UserServiceImpl implements UserService {
         response.setEmail     (staff.getEmail());
         response.setRole      (staff.getRole().name());
         return response;
+    }
+
+    @Override
+    public List<UserResponseDTO> getAllUsers() {
+        List<UserResponseDTO> allUsers = studentRepo.findAll()
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
+
+        List<UserResponseDTO> staffUsers = staffRepo.findAll()
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
+
+        allUsers.addAll(staffUsers);
+        return allUsers;
+    }
+
+    @Override
+    public void deleteUserById(String id) {
+        if (studentRepo.existsById(id)) {
+            studentRepo.deleteById(id);
+        } else if (staffRepo.existsById(id)) {
+            staffRepo.deleteById(id);
+        } else {
+            throw new IllegalArgumentException("User not found with ID: " + id);
+        }
+    }
+
+    // Private helper method to map any User to DTO
+    private UserResponseDTO mapToResponse(User user) {
+        UserResponseDTO dto = new UserResponseDTO();
+        dto.setId(user.getId());
+        dto.setIdType(user.getIdType());
+        dto.setFullName(user.getFullName());
+        dto.setPhone(user.getPhone());
+        dto.setEmail(user.getEmail());
+        dto.setRole(user.getRole().name());
+        return dto;
     }
 }
