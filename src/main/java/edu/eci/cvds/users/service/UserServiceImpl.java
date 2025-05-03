@@ -1,5 +1,6 @@
 package edu.eci.cvds.users.service;
 
+
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +11,9 @@ import edu.eci.cvds.users.model.*;
 import edu.eci.cvds.users.repository.*;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -95,5 +98,44 @@ public class UserServiceImpl implements UserService {
 
         // Map to DTO using ModelMapper
         return modelMapper.map(staff, UserResponseDTO.class);
+    }
+
+    @Override
+    public List<UserResponseDTO> getAllUsers() {
+        List<UserResponseDTO> allUsers = studentRepo.findAll()
+                .stream()
+                .map(this::mapToResponse)
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        List<UserResponseDTO> staffUsers = staffRepo.findAll()
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
+
+        allUsers.addAll(staffUsers);
+        return allUsers;
+    }
+
+    @Override
+    public void deleteUserById(String id) {
+        if (studentRepo.existsById(id)) {
+            studentRepo.deleteById(id);
+        } else if (staffRepo.existsById(id)) {
+            staffRepo.deleteById(id);
+        } else {
+            throw new IllegalArgumentException("User not found with ID: " + id);
+        }
+    }
+
+    // Private helper method to map any User to DTO
+    private UserResponseDTO mapToResponse(User user) {
+        UserResponseDTO dto = new UserResponseDTO();
+        dto.setId(user.getId());
+        dto.setIdType(user.getIdType());
+        dto.setFullName(user.getFullName());
+        dto.setPhone(user.getPhone());
+        dto.setEmail(user.getEmail());
+        dto.setRole(user.getRole().name());
+        return dto;
     }
 }
