@@ -9,7 +9,9 @@ import edu.eci.cvds.users.model.*;
 import edu.eci.cvds.users.repository.*;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -120,7 +122,7 @@ public class UserServiceImpl implements UserService {
         List<UserResponseDTO> allUsers = studentRepo.findAll()
                 .stream()
                 .map(this::mapToResponse)
-                .toList();
+                .collect(Collectors.toCollection(ArrayList::new));
 
         List<UserResponseDTO> staffUsers = staffRepo.findAll()
                 .stream()
