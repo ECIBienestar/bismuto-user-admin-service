@@ -8,10 +8,12 @@ import lombok.Setter;
 @Setter
 public class BaseUserDTO {
 
-    @NotBlank @Size(max = 50)
+    @NotBlank
+    @Size(max = 50)
     private String id;
 
-    @NotBlank @Size(max = 20)
+    @NotBlank
+    @Size(max = 20)
     private String idType;
 
     @NotBlank
@@ -20,7 +22,8 @@ public class BaseUserDTO {
     @NotNull
     private Integer phone;
 
-    @Email @NotBlank
+    @Email
+    @NotBlank
     private String email;
 
     @NotBlank
