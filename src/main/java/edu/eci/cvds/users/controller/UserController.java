@@ -3,8 +3,7 @@ package edu.eci.cvds.users.controller;
 import edu.eci.cvds.users.dto.StudentRequestDTO;
 import edu.eci.cvds.users.dto.UserRequestDTO;
 import edu.eci.cvds.users.dto.UserResponseDTO;
-import edu.eci.cvds.users.model.User;
-import edu.eci.cvds.users.repository.UserRepository;
+import jakarta.validation.Valid;
 import edu.eci.cvds.users.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,44 +29,30 @@ public class UserController {
     // Get users by ID
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDTO> getUserById(@PathVariable String id) {
-        try {
-            UserResponseDTO user = userService.getUserById(id);
-            return ResponseEntity.ok(user);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
-        }
+        UserResponseDTO user = userService.getUserById(id);
+        return ResponseEntity.ok(user);
     }
 
     // Create a student
     @PostMapping("/students")
-    public ResponseEntity<UserResponseDTO> createStudent(@RequestBody StudentRequestDTO dto) {
-        try {
-            UserResponseDTO user = userService.createStudent(dto);
-            return ResponseEntity.ok(user);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<UserResponseDTO> createStudent(
+            @Valid @RequestBody StudentRequestDTO dto) {
+        UserResponseDTO created = userService.createStudent(dto);
+        return ResponseEntity.ok(created);
     }
 
     // Create a staff (administrator)
     @PostMapping("/staff")
-    public ResponseEntity<UserResponseDTO> createStaff(@RequestBody UserRequestDTO dto) {
-        try {
-            UserResponseDTO user = userService.createUser(dto);
-            return ResponseEntity.ok(user);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<UserResponseDTO> createStaff(
+            @Valid @RequestBody UserRequestDTO dto) {
+        UserResponseDTO created = userService.createUser(dto);
+        return ResponseEntity.ok(created);
     }
 
     // Delete user by ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable String id) {
-        try {
-            userService.deleteUserById(id);
-            return ResponseEntity.noContent().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
-        }
+        userService.deleteUserById(id);
+        return ResponseEntity.noContent().build();
     }
 }
