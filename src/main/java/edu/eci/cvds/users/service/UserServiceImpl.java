@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import edu.eci.cvds.users.dto.*;
 import edu.eci.cvds.users.model.*;
 import edu.eci.cvds.users.repository.*;
+import edu.eci.cvds.users.exception.ResourceNotFoundException;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class UserServiceImpl implements UserService {
     public UserResponseDTO createStudent(StudentRequestDTO dto) {
         // 1) Busca el EmergencyContact
         EmergencyContact ec = contactRepo.findById(dto.getEmergencyContactId())
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Emergency contact not found: " + dto.getEmergencyContactId()));
 
 
@@ -103,9 +104,9 @@ public class UserServiceImpl implements UserService {
             return response;
         }
 
-        // Si no es Student, intentar como Staff
+        // If not Student, try as Staff
         Staff staff = staffRepo.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("User not found: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found: " + id));
 
         UserResponseDTO response = new UserResponseDTO();
         response.setId        (staff.getId());
@@ -140,7 +141,7 @@ public class UserServiceImpl implements UserService {
         } else if (staffRepo.existsById(id)) {
             staffRepo.deleteById(id);
         } else {
-            throw new IllegalArgumentException("User not found with ID: " + id);
+            throw new ResourceNotFoundException("User not found with ID: " + id);
         }
     }
 
