@@ -1,5 +1,7 @@
 package edu.eci.cvds.users.service;
 
+
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,10 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
+
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Autowired
     private StudentRepository studentRepo;
 
@@ -30,13 +36,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDTO createStudent(StudentRequestDTO dto) {
-        // 1) Busca el EmergencyContact
+        // 1) Search the emergency contact
         EmergencyContact ec = contactRepo.findById(dto.getEmergencyContactId())
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Emergency contact not found: " + dto.getEmergencyContactId()));
 
 
-        // 2) Crea la entidad Student
+        // 2) Create student entity
         Student student = new Student(
                 dto.getId(),
                 dto.getIdType(),
@@ -52,15 +58,9 @@ public class UserServiceImpl implements UserService {
         );
         studentRepo.save(student);
 
-        // 3) Mapea y devuelve con setters
+        // 3) Map to response DTOs using ModelMapper
         UserResponseDTO response = new UserResponseDTO();
-        response.setId        (student.getId());
-        response.setIdType    (student.getIdType());
-        response.setFullName  (student.getFullName());
-        response.setPhone     (student.getPhone());
-        response.setEmail     (student.getEmail());
-        response.setRole      (student.getRole().name());
-        return response;
+        return modelMapper.map(student, UserResponseDTO.class);
     }
 
     @Override
@@ -72,49 +72,32 @@ public class UserServiceImpl implements UserService {
                 dto.getPhone(),
                 dto.getEmail(),
                 Role.valueOf(dto.getRole()),
-                null, // specialty (solo si aplica)
-                List.of()     // schedule vacío inicialmente
+                null,             // specialty (only if apply)
+                List.of()         // initially empty schedule
         );
 
-        // Mapear a DTO de respuesta
-        UserResponseDTO response = new UserResponseDTO();
-        response.setId        (staff.getId());
-        response.setIdType    (staff.getIdType());
-        response.setFullName  (staff.getFullName());
-        response.setPhone     (staff.getPhone());
-        response.setEmail     (staff.getEmail());
-        response.setRole      (staff.getRole().name());
-        return response;
+        staffRepo.save(staff);
+
+        // Map to response DTO using ModelMapper
+        return modelMapper.map(staff, UserResponseDTO.class);
     }
 
     @Override
     public UserResponseDTO getUserById(String id) {
-        // Intentar encontrar al user como Student
+        // Try to find the user as Student
         Optional<Student> optStudent = studentRepo.findById(id);
         if (optStudent.isPresent()) {
             Student s = optStudent.get();
-            UserResponseDTO response = new UserResponseDTO();
-            response.setId        (s.getId());
-            response.setIdType    (s.getIdType());
-            response.setFullName  (s.getFullName());
-            response.setPhone     (s.getPhone());
-            response.setEmail     (s.getEmail());
-            response.setRole      (s.getRole().name());
-            return response;
+            // Map to DTO using ModelMapper
+            return modelMapper.map(s, UserResponseDTO.class);
         }
 
-        // Si no es Student, intentar como Staff
+        // If not Student, try as Staff
         Staff staff = staffRepo.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found: " + id));
 
-        UserResponseDTO response = new UserResponseDTO();
-        response.setId        (staff.getId());
-        response.setIdType    (staff.getIdType());
-        response.setFullName  (staff.getFullName());
-        response.setPhone     (staff.getPhone());
-        response.setEmail     (staff.getEmail());
-        response.setRole      (staff.getRole().name());
-        return response;
+        // Map to DTO using ModelMapper
+        return modelMapper.map(staff, UserResponseDTO.class);
     }
 
     @Override
