@@ -1,7 +1,10 @@
 package edu.eci.cvds.users.controller;
 
-import edu.eci.cvds.users.model.User;
-import edu.eci.cvds.users.repository.UserRepository;
+import edu.eci.cvds.users.dto.StudentRequestDTO;
+import edu.eci.cvds.users.dto.UserRequestDTO;
+import edu.eci.cvds.users.dto.UserResponseDTO;
+import jakarta.validation.Valid;
+import edu.eci.cvds.users.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,45 +13,46 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    private final UserRepository repo;
+    private final UserService userService;
 
-    public UserController(UserRepository repo) {
-        this.repo = repo;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
+    // Get all users (students + staff)
     @GetMapping
-    public List<User> all() {
-        return repo.findAll();
+    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
+        List<UserResponseDTO> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
     }
 
+    // Get users by ID
     @GetMapping("/{id}")
-    public ResponseEntity<User> getOne(@PathVariable Long id) {
-        return repo.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable String id) {
+        UserResponseDTO user = userService.getUserById(id);
+        return ResponseEntity.ok(user);
     }
 
-    @PostMapping
-    public User create(@RequestBody User newUser) {
-        return repo.save(newUser);
+    // Create a student
+    @PostMapping("/students")
+    public ResponseEntity<UserResponseDTO> createStudent(
+            @Valid @RequestBody StudentRequestDTO dto) {
+        UserResponseDTO created = userService.createStudent(dto);
+        return ResponseEntity.ok(created);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<User> update(@PathVariable Long id,
-                                       @RequestBody User update) {
-        return repo.findById(id).map(user -> {
-            user.setFullName(update.getFullName());
-            user.setEmail(update.getEmail());
-            user.setRole(update.getRole());
-            return ResponseEntity.ok(repo.save(user));
-        }).orElse(ResponseEntity.notFound().build());
+    // Create a staff (administrator)
+    @PostMapping("/staff")
+    public ResponseEntity<UserResponseDTO> createStaff(
+            @Valid @RequestBody UserRequestDTO dto) {
+        UserResponseDTO created = userService.createUser(dto);
+        return ResponseEntity.ok(created);
     }
 
+    // Delete user by ID
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        return repo.findById(id).map(user -> {
-            repo.delete(user);
-            return ResponseEntity.noContent().<Void>build();
-        }).orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Void> deleteUser(@PathVariable String id) {
+        userService.deleteUserById(id);
+        return ResponseEntity.noContent().build();
     }
 }

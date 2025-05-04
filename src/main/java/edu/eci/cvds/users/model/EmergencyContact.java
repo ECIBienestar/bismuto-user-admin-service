@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Table(name = "emergency_contacts")
 public class EmergencyContact {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
     @Column(name = "full_name", nullable = false)
     private String fullName;
@@ -35,11 +35,11 @@ public class EmergencyContact {
         this.relationship = relationship;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -5,5 +5,6 @@ public enum Role {
     TRAINER,
     MEDICAL_STAFF,
     MEDICAL_SECRETARY,
-    ADMINISTRATOR
+    ADMINISTRATOR,
+    PREFECT
 }

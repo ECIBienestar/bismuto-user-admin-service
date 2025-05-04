@@ -1,6 +1,5 @@
 package edu.eci.cvds.users.dto;
 
-import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 

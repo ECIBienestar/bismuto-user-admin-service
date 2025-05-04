@@ -103,7 +103,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.24</version>
-            <scope>provided</scope>
         </dependency>
 
         <!-- Jakarta Validation -->
@@ -160,6 +159,14 @@
                 <version>3.10.1</version>
                 <configuration>
                     <release>${java.version}</release>
+                    <annotationProcessorPaths>
+                        <!-- Procesador de Lombok -->
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.38</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
 
@@ -178,7 +185,9 @@
                         <goals><goal>report</goal></goals>
                         <configuration>
                             <excludes>
-                                <exclude>**/configurators/*</exclude>
+                                <exclude>**/config/*</exclude>
+                                <exclude>**/model/*</exclude>
+                                <exclude>**/*UserAdminApplication.class</exclude>
                             </excludes>
                         </configuration>
                     </execution>
@@ -186,6 +195,11 @@
                         <id>jacoco-check</id>
                         <goals><goal>check</goal></goals>
                         <configuration>
+                            <excludes>
+                                <exclude>**/config/*</exclude>
+                                <exclude>**/model/*</exclude>
+                                <exclude>**/*UserAdminApplication.class</exclude>
+                            </excludes>
                             <rules>
                                 <rule>
                                     <element>PACKAGE</element>
@@ -193,7 +207,7 @@
                                         <limit>
                                             <counter>CLASS</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.00</minimum>
+                                            <minimum>0.80</minimum>
                                         </limit>
                                     </limits>
                                 </rule>
