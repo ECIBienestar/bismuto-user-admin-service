@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Table(name = "external_schedule_entries")
 public class ExternalScheduleEntry {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
     @Column(name = "start_time", nullable = false)
     private LocalDateTime startTime;
@@ -23,11 +23,11 @@ public class ExternalScheduleEntry {
         this.endTime = endTime;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

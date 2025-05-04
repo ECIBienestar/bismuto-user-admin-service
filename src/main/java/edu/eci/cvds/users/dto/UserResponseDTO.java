@@ -1,6 +1,6 @@
 package edu.eci.cvds.users.dto;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,7 +10,26 @@ import lombok.Setter;
  * Extiende BaseUserDTO para exponer los mismos campos.
  */
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class UserResponseDTO extends BaseUserDTO {
-
-    public UserResponseDTO() {}
+    /**
+     * Constructor to facilitate creation in tests and services.
+     */
+    public UserResponseDTO(
+            String id,
+            String idType,
+            String fullName,
+            Integer phone,
+            String email,
+            String role
+    ) {
+        setId(id);
+        setIdType(idType);
+        setFullName(fullName);
+        setPhone(phone);
+        setEmail(email);
+        setRole(role);
+    }
 }

@@ -192,7 +192,9 @@
                         <goals><goal>report</goal></goals>
                         <configuration>
                             <excludes>
-                                <exclude>**/configurators/*</exclude>
+                                <exclude>**/config/*</exclude>
+                                <exclude>**/model/*</exclude>
+                                <exclude>**/*UserAdminApplication.class</exclude>
                             </excludes>
                         </configuration>
                     </execution>
@@ -200,6 +202,11 @@
                         <id>jacoco-check</id>
                         <goals><goal>check</goal></goals>
                         <configuration>
+                            <excludes>
+                                <exclude>**/config/*</exclude>
+                                <exclude>**/model/*</exclude>
+                                <exclude>**/*UserAdminApplication.class</exclude>
+                            </excludes>
                             <rules>
                                 <rule>
                                     <element>PACKAGE</element>
@@ -207,7 +214,7 @@
                                         <limit>
                                             <counter>CLASS</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.00</minimum>
+                                            <minimum>0.80</minimum>
                                         </limit>
                                     </limits>
                                 </rule>
