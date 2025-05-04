@@ -56,6 +56,18 @@ bismuto-user-admin-service/
                 └── UserAdminApplicationTest.java
 ```
 
+### Class Diagram:
+
+![DiagramaClasesUsuarios](https://github.com/user-attachments/assets/572dd755-e266-4a6a-a6d6-fa6559265052)
+
+### Component Diagram:
+
+![DiagramaComponentesUsuarios](https://github.com/user-attachments/assets/ed857946-ba6e-4b0f-8d86-2fe73388e58a)
+
+### Entity-relationship model:
+
+![DiagramaDatosUsuariosEditable](https://github.com/user-attachments/assets/6d430187-43e3-48c1-8e92-01d18da97c71)
+
 ## 🚀 How to Run the Project
 
 ### Prerequisites
