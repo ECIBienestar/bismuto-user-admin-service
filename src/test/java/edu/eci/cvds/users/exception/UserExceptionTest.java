@@ -2,7 +2,6 @@ package edu.eci.cvds.users.exception;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.eci.cvds.users.controller.UserController;
-import edu.eci.cvds.users.exception.BadRequestException;
 import edu.eci.cvds.users.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

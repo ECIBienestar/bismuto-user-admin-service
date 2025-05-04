@@ -1,5 +1,6 @@
-/**package edu.eci.cvds.users.config;
+package edu.eci.cvds.users.config;
 
+/**
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

@@ -12,6 +12,9 @@ public class Student extends User {
     @Column(nullable = false)
     private String program;
 
+    @Column(nullable = false)
+    private int semester;
+
     @Column(name = "birth_date", nullable = false)
     private LocalDate birthDate;
 
@@ -75,5 +78,13 @@ public class Student extends User {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public int getSemester() {
+        return semester;
+    }
+
+    public void setSemester(int semester) {
+        this.semester = semester;
     }
 }

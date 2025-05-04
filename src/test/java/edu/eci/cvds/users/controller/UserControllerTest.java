@@ -97,10 +97,9 @@ class UserControllerTest {
     @Test
     @DisplayName("POST /users/students invalid → 400")
     void createStudentInvalid() throws Exception {
-        // falta el fullName → violación de @NotBlank
+        // Missing fullName → violation of @NotBlank
         StudentRequestDTO dto = new StudentRequestDTO();
         dto.setId("S1");
-        // dto.setFullName(null);
 
         mvc.perform(post("/users/students")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -155,7 +154,6 @@ class UserControllerTest {
         UserRequestDTO dto = new UserRequestDTO();
         dto.setId("A1");
         dto.setIdType("CC");
-        // dto.setFullName(null); // Should trigger validation error
 
         mvc.perform(post("/users/staff")
                         .contentType(MediaType.APPLICATION_JSON)
