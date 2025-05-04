@@ -9,7 +9,6 @@ import lombok.Setter;
  * Response DTO returned by user endpoints.
  * Extiende BaseUserDTO para exponer los mismos campos.
  */
-
 @Getter
 @Setter
 @NoArgsConstructor

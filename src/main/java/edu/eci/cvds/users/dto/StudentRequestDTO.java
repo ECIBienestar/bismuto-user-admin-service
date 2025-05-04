@@ -24,7 +24,7 @@ public class StudentRequestDTO extends UserRequestDTO {
 
     @NotBlank
     private String address;
-
+  
     @NotNull(message = "Emergency contact ID cannot be null")
     private Long emergencyContactId;
 }
