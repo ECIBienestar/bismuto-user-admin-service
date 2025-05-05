@@ -45,7 +45,6 @@ class UserServiceImplTest {
         dto.setFullName("Student One");
         dto.setPhone(3000000);
         dto.setEmail("stud@uni.edu");
-        dto.setRole("WELLNESS_STAFF");
         dto.setStudentCode("STU100");
         dto.setProgram("Systems Engineering");
         dto.setBirthDate(LocalDate.of(2000,1,1));
@@ -64,7 +63,7 @@ class UserServiceImplTest {
         assertEquals("STU100", saved.getStudentCode());
 
         assertEquals("Student One", resp.getFullName());
-        assertEquals("WELLNESS_STAFF", resp.getRole());
+        assertEquals("STUDENT", resp.getRole());
     }
 
     @Test

@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
                 dto.getFullName(),
                 dto.getPhone(),
                 dto.getEmail(),
-                Role.valueOf(dto.getRole()),
+                Role.STUDENT,
                 dto.getStudentCode(),
                 dto.getProgram(),
                 dto.getBirthDate(),

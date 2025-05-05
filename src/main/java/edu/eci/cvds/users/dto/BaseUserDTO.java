@@ -25,7 +25,4 @@ public class BaseUserDTO {
     @Email
     @NotBlank
     private String email;
-
-    @NotBlank
-    private String role;
 }

@@ -6,5 +6,6 @@ public enum Role {
     MEDICAL_STAFF,
     MEDICAL_SECRETARY,
     ADMINISTRATOR,
-    PREFECT
+    PREFECT,
+    STUDENT
 }

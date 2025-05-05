@@ -1,5 +1,6 @@
 package edu.eci.cvds.users.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,4 +11,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserRequestDTO extends BaseUserDTO {
+    @NotBlank
+    private String role;
 }
