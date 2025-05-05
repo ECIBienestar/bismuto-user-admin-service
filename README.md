@@ -83,6 +83,34 @@ bismuto-user-admin-service/
    mvn spring-boot:run
    ```
 
+
+## 📑 Diagrams
+Some of the diagrams proposed for this module are the following, which will help us to have a clear idea of ​​how the system works and is constructed:
+
+### Clases
+Represents the static structure of a system by showing its classes, attributes, methods, and relationships. It helps understand how objects are organized and related in an object-oriented system.
+
+![DiagramClases](/docs/DiagramaClasesUsuarios.png)
+
+
+### Data
+Shows the structure of data within the system, including entities, attributes, and their relationships. It is useful for database design and understanding how data is organized and linked.
+
+![DiagramData](/docs/DiagramaDatosUsuarios.png)
+
+
+### Components
+Illustrates the physical and software components of a system and how they are grouped and connected. It helps visualize the architecture and module distribution of the application.
+
+![DiagramComponents](/docs/DiagramaComponentesUsuarios.png)
+
+
+### Secuence
+Describes how objects interact in a specific sequence of events over time. It focuses on the order of messages exchanged between objects to accomplish particular use cases or functions.
+
+![DiagramSecuence](/docs/DiagramaSecuenciaUsuarios.png)
+
+
 ## 📌 API Endpoints
 
 ### User Management
