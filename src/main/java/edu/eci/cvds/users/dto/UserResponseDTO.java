@@ -16,6 +16,7 @@ public class UserResponseDTO extends UserRequestDTO {
     /**
      * Constructor to facilitate creation in tests and services.
      */
+
     public UserResponseDTO(
             String id,
             String idType,
