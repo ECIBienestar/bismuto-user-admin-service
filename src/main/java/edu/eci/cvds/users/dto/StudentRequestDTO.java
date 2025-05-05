@@ -12,7 +12,7 @@ import java.time.LocalDate;
  */
 @Getter
 @Setter
-public class StudentRequestDTO extends UserRequestDTO {
+public class StudentRequestDTO extends BaseUserDTO {
     @NotBlank
     private String studentCode;
 

@@ -78,7 +78,7 @@ class UserControllerTest {
     void createStudentValid() throws Exception {
         StudentRequestDTO dto = new StudentRequestDTO();
         dto.setId("S1"); dto.setIdType("CC"); dto.setFullName("Stu"); dto.setPhone(111);
-        dto.setEmail("stu@e"); dto.setRole("WELLNESS_STAFF");
+        dto.setEmail("stu@e");
         dto.setStudentCode("SC1"); dto.setProgram("Eng");
         dto.setBirthDate(LocalDate.of(2001,1,1)); dto.setAddress("Somewhere");
         dto.setEmergencyContactId(45661L);

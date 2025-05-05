@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserResponseDTO extends BaseUserDTO {
+public class UserResponseDTO extends UserRequestDTO {
     /**
      * Constructor to facilitate creation in tests and services.
      */

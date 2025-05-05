@@ -19,7 +19,6 @@ class BaseUserDTOTest {
         dto.setFullName("Name");
         dto.setPhone(555);
         dto.setEmail("e@e.com");
-        dto.setRole("TRAINER");
 
         Set<ConstraintViolation<BaseUserDTO>> errs = validator.validate(dto);
         assertTrue(errs.isEmpty());

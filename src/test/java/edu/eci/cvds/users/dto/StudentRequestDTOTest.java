@@ -26,7 +26,6 @@ class StudentRequestDTOTest {
         dto.setFullName("Name");
         dto.setPhone(123);
         dto.setEmail("e@e.com");
-        dto.setRole("ADMINISTRATOR");
         dto.setStudentCode("SC1");
         dto.setProgram("Prog");
         dto.setBirthDate(LocalDate.now());
