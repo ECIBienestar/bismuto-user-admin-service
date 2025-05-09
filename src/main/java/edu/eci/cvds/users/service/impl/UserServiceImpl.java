@@ -1,4 +1,4 @@
-package edu.eci.cvds.users.service;
+package edu.eci.cvds.users.service.impl;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.eci.cvds.users.dto.*;
 import edu.eci.cvds.users.model.*;
+import edu.eci.cvds.users.model.enums.Role;
 import edu.eci.cvds.users.repository.*;
+import edu.eci.cvds.users.service.UserService;
 import edu.eci.cvds.users.exception.ResourceNotFoundException;
 
 import java.util.List;
