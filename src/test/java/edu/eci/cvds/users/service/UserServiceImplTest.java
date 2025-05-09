@@ -5,7 +5,10 @@ import edu.eci.cvds.users.dto.UserRequestDTO;
 import edu.eci.cvds.users.dto.UserResponseDTO;
 import edu.eci.cvds.users.exception.ResourceNotFoundException;
 import edu.eci.cvds.users.model.*;
+import edu.eci.cvds.users.model.enums.Role;
 import edu.eci.cvds.users.repository.*;
+import edu.eci.cvds.users.service.impl.UserServiceImpl;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

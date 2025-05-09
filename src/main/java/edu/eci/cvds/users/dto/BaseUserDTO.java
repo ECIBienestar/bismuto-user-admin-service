@@ -8,7 +8,6 @@ import lombok.Setter;
 @Setter
 public class BaseUserDTO {
 
-
     @NotBlank
     @Size(max = 50)
     private String id;

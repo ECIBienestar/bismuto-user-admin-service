@@ -1,84 +1,68 @@
 package edu.eci.cvds.users.model;
 
+import edu.eci.cvds.users.model.enums.IdType;
+import edu.eci.cvds.users.model.enums.Relationship;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+/**
+* Entity representing an emergency contact for a student.
+* Contains contact information and relationship to the student.
+* 
+* @author Jesús Pinzón (Team Bismuto)
+* @version 1.1
+* @since 2025-05-09
+*/
 @Entity
 @Table(name = "emergency_contacts")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class EmergencyContact {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+   
+   @Id 
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   private Long id;
 
-    @Column(name = "full_name", nullable = false)
-    private String fullName;
+   @Column(name = "id_number", nullable = false, length = 20)
+   @NotBlank(message = "ID number cannot be blank")
+   @Size(max = 20, message = "ID number must be at most 20 characters")
+   private String idNumber;
 
-    @Column(nullable = false, length = 10)
-    private Integer phone;
+   @Enumerated(EnumType.STRING)
+   @Column(name = "id_type", nullable = false, length = 20)
+   @NotNull(message = "ID type cannot be null")
+   private IdType idType;
 
-    @Column(name = "idType", nullable = false, length = 20)
-    private String idType;
+   @Column(name = "full_name", nullable = false)
+   @NotBlank(message = "Full name cannot be blank")
+   @Size(max = 100, message = "Full name must be at most 100 characters")
+   private String fullName;
 
-    @Column(name = "id_number", nullable = false, length = 20)
-    private String idNumber;
+   @Column(nullable = false)
+   @NotNull(message = "Phone number cannot be null")
+   @Digits(integer = 15, fraction = 0, message = "Phone must be a valid number")
+   private Long phone;   
 
-    @Column(nullable = false)
-    private String relationship;
-
-    public EmergencyContact() {}
-
-    public EmergencyContact(String fullName, Integer phone,
-                            String idType, String idNumber,
-                            String relationship) {
-        this.fullName = fullName;
-        this.phone = phone;
-        this.idType = idType;
-        this.idNumber = idNumber;
-        this.relationship = relationship;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public Integer getPhone() {
-        return phone;
-    }
-
-    public void setPhone(Integer phone) {
-        this.phone = phone;
-    }
-
-    public String getIdType() {
-        return idType;
-    }
-    public void setIdType(String idType) {
-        this.idType = idType;
-    }
-
-    public String getIdNumber() {
-        return idNumber;
-    }
-
-    public void setIdNumber(String idNumber) {
-        this.idNumber = idNumber;
-    }
-
-    public String getRelationship() {
-        return relationship;
-    }
-
-    public void setRelationship(String relationship) {
-        this.relationship = relationship;
-    }
+   @Column(nullable = false)
+   @NotBlank(message = "Relationship cannot be blank")
+   @Size(max = 50, message = "Relationship must be at most 50 characters")
+   private Relationship relationship;
+   
+   /**
+    * Formats the contact information for notification purposes.
+    * 
+    * @return Formatted string with contact details
+    */
+   public String getFormattedContactInfo() {
+       return String.format("%s (%s): %d", 
+                            fullName, 
+                            relationship.toString(), 
+                            phone);
+   }
 }

@@ -1,41 +1,58 @@
 package edu.eci.cvds.users.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+
+import java.util.ArrayList;
 import java.util.List;
 
+/**
+* Entity representing staff members in the university wellness system.
+* Extends the base User class with staff-specific attributes.
+* 
+* @author Jesús Pinzón (Team Bismuto)
+* @version 1.1
+* @since 2025-05-09
+*/
 @Entity
 @Table(name = "staff")
-public class Staff extends User{
-    @Column(nullable = true)
-    private String specialty; //only for MEDICAL_STAFF
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "staff_id")
-    private List<ExternalScheduleEntry> availableSchedule;
-
-    protected Staff() {}
-
-    public Staff(String id, String idType, String fullName, Integer phone,
-                 String email, Role role, String specialty,
-                 List<ExternalScheduleEntry> availableSchedule) {
-        super(id, idType, fullName, phone, email, role);
-        this.specialty = specialty;
-        this.availableSchedule = availableSchedule;
-    }
-
-    public String getSpecialty() {
-        return specialty;
-    }
-
-    public void setSpecialty(String specialty) {
-        this.specialty = specialty;
-    }
-
-    public List<ExternalScheduleEntry> getAvailableSchedule() {
-        return availableSchedule;
-    }
-
-    public void setAvailableSchedule(List<ExternalScheduleEntry> availableSchedule) {
-        this.availableSchedule = availableSchedule;
-    }
+@Getter
+@Setter
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
+@SuperBuilder
+public class Staff extends User {
+   
+   @Column(nullable = true)
+   @Size(max = 50, message = "Specialty must be at most 50 characters")
+   private String specialty; // only for MEDICAL_STAFF
+   
+   @Builder.Default
+   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+   @JoinColumn(name = "staff_id")
+   private List<ExternalScheduleEntry> availableSchedule = new ArrayList<>();
+   
+   /**
+    * Adds a schedule entry to the staff member's available schedule.
+    * 
+    * @param entry The schedule entry to add
+    * @return true if successfully added
+    */
+   public boolean addScheduleEntry(ExternalScheduleEntry entry) {
+       return this.availableSchedule.add(entry);
+   }
+   
+   /**
+    * Removes a schedule entry from the staff member's available schedule.
+    * 
+    * @param entry The schedule entry to remove
+    * @return true if successfully removed
+    */
+   public boolean removeScheduleEntry(ExternalScheduleEntry entry) {
+       return this.availableSchedule.remove(entry);
+   }
 }
