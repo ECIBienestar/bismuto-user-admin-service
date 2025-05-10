@@ -3,10 +3,10 @@ package edu.eci.cvds.users.dto;
 import edu.eci.cvds.users.model.enums.Program;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
@@ -19,11 +19,11 @@ import java.time.LocalDate;
  * @version 1.1
  * @since 2025-05-09
  */
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
+@EqualsAndHashCode(callSuper = true)
 public class StudentRequestDTO extends UserRequestDTO {
     
     @Schema(description = "Unique student code", example = "A00123456")

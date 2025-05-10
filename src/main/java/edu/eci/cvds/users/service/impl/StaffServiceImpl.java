@@ -9,6 +9,7 @@ import edu.eci.cvds.users.exception.ResourceNotFoundException;
 import edu.eci.cvds.users.model.ExternalScheduleEntry;
 import edu.eci.cvds.users.model.Staff;
 import edu.eci.cvds.users.model.enums.Role;
+import edu.eci.cvds.users.model.enums.Specialty;
 import edu.eci.cvds.users.repository.StaffRepository;
 import edu.eci.cvds.users.repository.UserRepository;
 import edu.eci.cvds.users.service.StaffService;
@@ -61,7 +62,15 @@ public class StaffServiceImpl implements StaffService {
             throw BadRequestException.invalidField("role", dto.getRole());
         }
         
-        // Create staff member
+        // Determine default specialty based on role
+        Specialty defaultSpecialty = null;
+        if (role == Role.MEDICAL_STAFF) {
+            defaultSpecialty = Specialty.GENERAL_MEDICINE;
+        } else if (role == Role.TRAINER) {
+            defaultSpecialty = Specialty.FITNESS_COACH;
+        }
+        
+        // Crear staff member
         Staff staff = Staff.builder()
                 .id(dto.getId())
                 .idType(dto.getIdType())
@@ -69,7 +78,8 @@ public class StaffServiceImpl implements StaffService {
                 .phone(dto.getPhone())
                 .email(dto.getEmail())
                 .role(role)
-                .specialty(role == Role.MEDICAL_STAFF ? "General" : null)
+                .specialty(defaultSpecialty)
+                .active(true)
                 .availableSchedule(new ArrayList<>())
                 .build();
         
@@ -223,15 +233,25 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<StaffResponseDTO> getStaffBySpecialty(String specialty) {
-        log.info("Retrieving staff members with specialty: {}", specialty);
+    public List<StaffResponseDTO> getStaffBySpecialty(String specialtyText) {
+        log.info("Retrieving staff members with specialty: {}", specialtyText);
         
-        List<Staff> staffWithSpecialty = staffRepository.findBySpecialtyContaining(specialty);
+        List<Staff> staffList;
         
-        return staffWithSpecialty.stream()
+        try {
+            // Try to convert to enum if it's an exact value
+            Specialty specialty = Specialty.valueOf(specialtyText.toUpperCase());
+            staffList = staffRepository.findBySpecialty(specialty);
+        } catch (IllegalArgumentException e) {
+            // If no match, try to convert to enum
+            staffList = staffRepository.findBySpecialtyKeyword(specialtyText);
+        }
+        
+        return staffList.stream()
                 .map(this::mapToDto)
                 .toList();
     }
+
     
     /**
      * Maps a Staff entity to a StaffResponseDTO.

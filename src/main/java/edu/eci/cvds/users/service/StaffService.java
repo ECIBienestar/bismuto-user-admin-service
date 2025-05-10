@@ -3,6 +3,7 @@ package edu.eci.cvds.users.service;
 import edu.eci.cvds.users.dto.ScheduleEntryDTO;
 import edu.eci.cvds.users.dto.StaffResponseDTO;
 import edu.eci.cvds.users.dto.UserRequestDTO;
+import edu.eci.cvds.users.model.enums.Specialty;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -79,5 +80,5 @@ public interface StaffService {
      * @param specialty the specialty to filter by
      * @return list of staff members with the specified specialty
      */
-    List<StaffResponseDTO> getStaffBySpecialty(String specialty);
+    List<StaffResponseDTO> getStaffBySpecialty(String specialtyText);
 }

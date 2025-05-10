@@ -1,12 +1,11 @@
 package edu.eci.cvds.users.dto;
 
-import edu.eci.cvds.users.model.enums.IdType;
 import edu.eci.cvds.users.model.enums.Program;
-import edu.eci.cvds.users.model.enums.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
@@ -19,10 +18,11 @@ import java.time.LocalDate;
  * @version 1.1
  * @since 2025-05-09
  */
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 @SuperBuilder
+@EqualsAndHashCode(callSuper = true)
 @Schema(description = "Student information with academic and personal details")
 public class StudentResponseDTO extends UserResponseDTO {
     
@@ -61,29 +61,4 @@ public class StudentResponseDTO extends UserResponseDTO {
      */
     @Schema(description = "Emergency contact information")
     private EmergencyContactDTO emergencyContact;
-    
-    /**
-     * Full constructor with all fields
-     */
-    public StudentResponseDTO(
-            String id,
-            IdType idType,
-            String fullName,
-            Long phone,
-            String email,
-            Role role,
-            String studentCode,
-            Program program,
-            int semester,
-            LocalDate birthDate,
-            String address,
-            EmergencyContactDTO emergencyContact) {
-        super(id, idType, fullName, phone, email, role);
-        this.studentCode = studentCode;
-        this.program = program;
-        this.semester = semester;
-        this.birthDate = birthDate;
-        this.address = address;
-        this.emergencyContact = emergencyContact;
-    }
 }

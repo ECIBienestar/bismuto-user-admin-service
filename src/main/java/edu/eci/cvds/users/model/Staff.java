@@ -11,6 +11,8 @@ import lombok.experimental.SuperBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.eci.cvds.users.model.enums.Specialty;
+
 /**
 * Entity representing staff members in the university wellness system.
 * Extends the base User class with staff-specific attributes.
@@ -27,9 +29,9 @@ import java.util.List;
 @SuperBuilder
 public class Staff extends User {
    
+   @Enumerated(EnumType.STRING)
    @Column(nullable = true)
-   @Size(max = 50, message = "Specialty must be at most 50 characters")
-   private String specialty; // only for MEDICAL_STAFF
+   private Specialty specialty;
    
    @Builder.Default
    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)

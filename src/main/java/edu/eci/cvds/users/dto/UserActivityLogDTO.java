@@ -16,9 +16,9 @@ import java.time.LocalDateTime;
  * @since 2025-05-09
  */
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class UserActivityLogDTO {
     
     /**

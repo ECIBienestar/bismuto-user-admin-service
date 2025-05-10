@@ -2,6 +2,7 @@ package edu.eci.cvds.users.dto;
 
 import edu.eci.cvds.users.model.enums.IdType;
 import edu.eci.cvds.users.model.enums.Relationship;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,17 +17,18 @@ import lombok.NoArgsConstructor;
  * @since 2025-05-09
  */
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class EmergencyContactRequestDTO {
     @NotBlank(message = "Full name cannot be blank")
     @Size(max = 100, message = "Full name must be at most 100 characters")
     private String fullName;
     
-    @NotNull(message = "Phone number cannot be null")
-    @Digits(integer = 15, fraction = 0, message = "Phone must be a valid number")
-    private Long phone;
+    @Column(nullable = false, length = 20)
+    @NotBlank(message = "Phone number cannot be blank")
+    // @Pattern(regexp = "^\\+?[0-9]{8,15}$", message = "Phone must be a valid number with 8-15 digits, optionally starting with '+'")
+    private String phone;
     
     private IdType idType;
     

@@ -20,7 +20,7 @@ public enum Program {
     INDUSTRIAL_ENGINEERING,      // Ingeniería Industrial
     MATHEMATICS,                 // Matemáticas
     MECHANICAL_ENGINEERING,      // Ingeniería Mecánica
-    OTHER,                       // Otra
+    OTHER,                       // Otro
     SOFTWARE_ENGINEERING,        // Ingeniería de Sistemas
     STATISTICAL_ENGINEERING,     // Ingeniería Estadística
     AI_ENGINEERING               // Ingeniería en Inteligencia Artificial
