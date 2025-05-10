@@ -90,25 +90,25 @@ Some of the diagrams proposed for this module are the following, which will help
 ### Clases
 Represents the static structure of a system by showing its classes, attributes, methods, and relationships. It helps understand how objects are organized and related in an object-oriented system.
 
-![DiagramClases](/docs/DiagramaClasesUsuarios.png)
+![DiagramClases](assets/images/DiagramaClasesUsuarios.png)
 
 
 ### Data
 Shows the structure of data within the system, including entities, attributes, and their relationships. It is useful for database design and understanding how data is organized and linked.
 
-![DiagramData](/docs/DiagramaDatosUsuarios.png)
+![DiagramData](assets/images/DiagramaDatosUsuarios.png)
 
 
 ### Components
 Illustrates the physical and software components of a system and how they are grouped and connected. It helps visualize the architecture and module distribution of the application.
 
-![DiagramComponents](/docs/DiagramaComponentesUsuarios.png)
+![DiagramComponents](assets/images/DiagramaComponentesUsuarios.png)
 
 
 ### Secuence
 Describes how objects interact in a specific sequence of events over time. It focuses on the order of messages exchanged between objects to accomplish particular use cases or functions.
 
-![DiagramSecuence](/docs/DiagramaSecuenciaUsuarios.png)
+![DiagramSecuence](assets/images/DiagramaSecuenciaUsuarios.png)
 
 
 ## 📌 API Endpoints
