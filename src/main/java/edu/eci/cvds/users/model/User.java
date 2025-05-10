@@ -37,7 +37,6 @@ public abstract class User {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "id_type", nullable = false, length = 20)
-    @NotBlank(message = "ID type cannot be blank")
     private IdType idType;
 
     @Column(name = "full_name", nullable = false)
@@ -58,6 +57,8 @@ public abstract class User {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    @NotNull(message = "Role cannot be null")
     private Role role;
+
+    @Column(nullable = false)
+    private boolean active = true;
 }

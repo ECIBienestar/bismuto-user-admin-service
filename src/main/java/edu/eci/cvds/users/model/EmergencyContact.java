@@ -36,7 +36,6 @@ public class EmergencyContact {
 
    @Enumerated(EnumType.STRING)
    @Column(name = "id_type", nullable = false, length = 20)
-   @NotNull(message = "ID type cannot be null")
    private IdType idType;
 
    @Column(name = "full_name", nullable = false)
@@ -50,8 +49,6 @@ public class EmergencyContact {
    private Long phone;   
 
    @Column(nullable = false)
-   @NotBlank(message = "Relationship cannot be blank")
-   @Size(max = 50, message = "Relationship must be at most 50 characters")
    private Relationship relationship;
    
    /**

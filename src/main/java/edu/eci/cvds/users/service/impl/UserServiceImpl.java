@@ -1,161 +1,104 @@
 package edu.eci.cvds.users.service.impl;
 
+import edu.eci.cvds.users.dto.UserRequestDTO;
+import edu.eci.cvds.users.dto.UserResponseDTO;
+import edu.eci.cvds.users.exception.ResourceNotFoundException;
+import edu.eci.cvds.users.model.User;
+import edu.eci.cvds.users.model.enums.Role;
+import edu.eci.cvds.users.repository.UserRepository;
+import edu.eci.cvds.users.service.UserService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import edu.eci.cvds.users.dto.*;
-import edu.eci.cvds.users.model.*;
-import edu.eci.cvds.users.model.enums.Role;
-import edu.eci.cvds.users.repository.*;
-import edu.eci.cvds.users.service.UserService;
-import edu.eci.cvds.users.exception.ResourceNotFoundException;
 
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
+/**
+ * Implementation of the UserService interface.
+ * 
+ * @author Jesús Pinzón (Team Bismuto)
+ * @version 1.1
+ * @since 2025-05-09
+ */
+@Slf4j
 @Service
-@Transactional
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    @Autowired
-    private StudentRepository studentRepo;
 
-    @Autowired
-    private StaffRepository staffRepo;
-
-    @Autowired
-    private UserRepository userRepo;
-
-    @Autowired
-    private EmergencyContactRepository contactRepo;
+    private final UserRepository userRepository;
 
     @Override
-    public UserResponseDTO createStudent(StudentRequestDTO dto) {
-        // 1) Busca el EmergencyContact
-        EmergencyContact ec = contactRepo.findById(dto.getEmergencyContactId())
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Emergency contact not found: " + dto.getEmergencyContactId()));
-
-
-        // 2) Crea la entidad Student
-        Student student = new Student(
-                dto.getId(),
-                dto.getIdType(),
-                dto.getFullName(),
-                dto.getPhone(),
-                dto.getEmail(),
-                Role.STUDENT,
-                dto.getStudentCode(),
-                dto.getProgram(),
-                dto.getBirthDate(),
-                ec,
-                dto.getAddress()
-        );
-        studentRepo.save(student);
-
-        // 3) Mapea y devuelve con setters
-        UserResponseDTO response = new UserResponseDTO();
-        response.setId        (student.getId());
-        response.setIdType    (student.getIdType());
-        response.setFullName  (student.getFullName());
-        response.setPhone     (student.getPhone());
-        response.setEmail     (student.getEmail());
-        response.setRole      (student.getRole().name());
-        return response;
-    }
-
-    @Override
-    public UserResponseDTO createUser(UserRequestDTO dto) {
-        Staff staff = new Staff(
-                dto.getId(),
-                dto.getIdType(),
-                dto.getFullName(),
-                dto.getPhone(),
-                dto.getEmail(),
-                Role.valueOf(dto.getRole()),
-                null, // specialty (solo si aplica)
-                List.of()     // schedule vacío inicialmente
-        );
-
-        // Mapear a DTO de respuesta
-        UserResponseDTO response = new UserResponseDTO();
-        response.setId        (staff.getId());
-        response.setIdType    (staff.getIdType());
-        response.setFullName  (staff.getFullName());
-        response.setPhone     (staff.getPhone());
-        response.setEmail     (staff.getEmail());
-        response.setRole      (staff.getRole().name());
-        return response;
-    }
-
-    @Override
-    public UserResponseDTO getUserById(String id) {
-        // Intentar encontrar al user como Student
-        Optional<Student> optStudent = studentRepo.findById(id);
-        if (optStudent.isPresent()) {
-            Student s = optStudent.get();
-            UserResponseDTO response = new UserResponseDTO();
-            response.setId        (s.getId());
-            response.setIdType    (s.getIdType());
-            response.setFullName  (s.getFullName());
-            response.setPhone     (s.getPhone());
-            response.setEmail     (s.getEmail());
-            response.setRole      (s.getRole().name());
-            return response;
-        }
-
-        // If not Student, try as Staff
-        Staff staff = staffRepo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found: " + id));
-
-        UserResponseDTO response = new UserResponseDTO();
-        response.setId        (staff.getId());
-        response.setIdType    (staff.getIdType());
-        response.setFullName  (staff.getFullName());
-        response.setPhone     (staff.getPhone());
-        response.setEmail     (staff.getEmail());
-        response.setRole      (staff.getRole().name());
-        return response;
-    }
-
-    @Override
+    @Transactional(readOnly = true)
     public List<UserResponseDTO> getAllUsers() {
-        List<UserResponseDTO> allUsers = studentRepo.findAll()
-                .stream()
-                .map(this::mapToResponse)
-                .collect(Collectors.toCollection(ArrayList::new));
-
-        List<UserResponseDTO> staffUsers = staffRepo.findAll()
-                .stream()
-                .map(this::mapToResponse)
+        log.info("Retrieving all users");
+        return userRepository.findAll().stream()
+                .map(this::mapToDto)
                 .toList();
-
-        allUsers.addAll(staffUsers);
-        return allUsers;
     }
 
     @Override
-    public void deleteUserById(String id) {
-        if (studentRepo.existsById(id)) {
-            studentRepo.deleteById(id);
-        } else if (staffRepo.existsById(id)) {
-            staffRepo.deleteById(id);
-        } else {
-            throw new ResourceNotFoundException("User not found with ID: " + id);
-        }
+    @Transactional(readOnly = true)
+    public UserResponseDTO getUserById(String id) {
+        log.info("Retrieving user with ID: {}", id);
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> ResourceNotFoundException.create("User", id));
+        return mapToDto(user);
     }
 
-    // Private helper method to map any User to DTO
-    private UserResponseDTO mapToResponse(User user) {
-        UserResponseDTO dto = new UserResponseDTO();
-        dto.setId(user.getId());
-        dto.setIdType(user.getIdType());
-        dto.setFullName(user.getFullName());
-        dto.setPhone(user.getPhone());
-        dto.setEmail(user.getEmail());
-        dto.setRole(user.getRole().name());
-        return dto;
+    @Override
+    @Transactional
+    public UserResponseDTO updateUser(String id, UserRequestDTO dto) {
+        log.info("Updating user with ID: {}", id);
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> ResourceNotFoundException.create("User", id));
+                
+        // Update basic user fields
+        user.setFullName(dto.getFullName());
+        user.setIdType(dto.getIdType());
+        user.setPhone(dto.getPhone());
+        user.setEmail(dto.getEmail());
+        
+        User savedUser = userRepository.save(user);
+        log.info("User updated successfully: {}", savedUser.getId());
+        return mapToDto(savedUser);
+    }
+
+    @Override
+    @Transactional
+    public void deleteUserById(String id) {
+        log.info("Deleting user with ID: {}", id);
+        if (!userRepository.existsById(id)) {
+            throw ResourceNotFoundException.create("User", id);
+        }
+        
+        userRepository.deleteById(id);
+        log.info("User deleted successfully: {}", id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<UserResponseDTO> getUsersByRole(Role role) {
+        log.info("Retrieving users with role: {}", role);
+        return userRepository.findByRole(role).stream()
+                .map(this::mapToDto)
+                .toList();
+    }
+    
+    /**
+     * Maps a User entity to a UserResponseDTO.
+     * 
+     * @param user the user entity
+     * @return the user DTO
+     */
+    private UserResponseDTO mapToDto(User user) {
+        return UserResponseDTO.builder()
+                .id(user.getId())
+                .idType(user.getIdType())
+                .fullName(user.getFullName())
+                .phone(user.getPhone())
+                .email(user.getEmail())
+                .role(user.getRole())
+                .build();
     }
 }
