@@ -11,4 +11,3 @@ public class UserAdminApplication {
         SpringApplication.run(UserAdminApplication.class, args);
     }
 }
-
