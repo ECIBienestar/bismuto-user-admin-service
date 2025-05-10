@@ -28,13 +28,11 @@ public class EmergencyContactRequestDTO {
     @Digits(integer = 15, fraction = 0, message = "Phone must be a valid number")
     private Long phone;
     
-    @NotNull(message = "ID type cannot be null")
     private IdType idType;
     
     @NotBlank(message = "ID number cannot be blank")
     @Size(max = 20, message = "ID number must be at most 20 characters")
     private String idNumber;
     
-    @NotNull(message = "Relationship cannot be null")
     private Relationship relationship;
 }

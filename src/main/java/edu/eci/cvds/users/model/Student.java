@@ -34,7 +34,6 @@ public class Student extends User {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    @NotNull(message = "Program cannot be null")
     private Program program;
 
     @Column(nullable = false)

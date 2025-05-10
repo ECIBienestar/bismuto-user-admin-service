@@ -32,7 +32,6 @@ public class StudentRequestDTO extends UserRequestDTO {
     private String studentCode;
 
     @Schema(description = "Academic program", example = "SOFTWARE_ENGINEERING")
-    @NotNull(message = "Program cannot be null")
     private Program program;
     
     @Schema(description = "Current semester", example = "5")

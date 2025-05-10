@@ -26,7 +26,6 @@ public class BaseUserDTO {
     @Size(max = 50, message = "ID must be at most 50 characters")
     private String id;
 
-    @NotNull(message = "ID type cannot be null")
     private IdType idType;
 
     @NotBlank(message = "Full name cannot be blank")
