@@ -2,9 +2,10 @@ package edu.eci.cvds.users.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -19,9 +20,10 @@ import java.util.UUID;
 */
 @Entity
 @Table(name = "user_activity_logs")
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class UserActivityLog {
 
    @Id
