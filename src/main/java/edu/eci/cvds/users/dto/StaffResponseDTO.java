@@ -1,15 +1,16 @@
 package edu.eci.cvds.users.dto;
 
-import edu.eci.cvds.users.model.enums.IdType;
-import edu.eci.cvds.users.model.enums.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.eci.cvds.users.model.enums.Specialty;
 
 /**
  * Response DTO for Staff entities with additional staff-specific fields.
@@ -19,10 +20,11 @@ import java.util.List;
  * @version 1.1
  * @since 2025-05-09
  */
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @Schema(description = "Staff information with specialty and schedule details")
 public class StaffResponseDTO extends UserResponseDTO {
     
@@ -30,34 +32,16 @@ public class StaffResponseDTO extends UserResponseDTO {
      * Specialty or area of expertise (mainly for medical staff)
      */
     @Schema(description = "Staff specialty or area of expertise", 
-            example = "Cardiology", 
+            example = "DENTISTRY", 
             nullable = true)
-    private String specialty;
+    private Specialty specialty;
     
     /**
      * List of scheduled availability time slots
      */
     @Schema(description = "Available schedule slots")
+    @lombok.Builder.Default
     private List<ScheduleEntryDTO> availableSchedule = new ArrayList<>();
-    
-    /**
-     * Full constructor with all fields
-     */
-    public StaffResponseDTO(
-            String id, 
-            IdType idType, 
-            String fullName, 
-            Long phone, 
-            String email, 
-            Role role, 
-            String specialty, 
-            List<ScheduleEntryDTO> availableSchedule) {
-        super(id, idType, fullName, phone, email, role);
-        this.specialty = specialty;
-        this.availableSchedule = availableSchedule != null ? 
-                                 availableSchedule : 
-                                 new ArrayList<>();
-    }
     
     /**
      * Adds a schedule entry to the staff's available schedule.

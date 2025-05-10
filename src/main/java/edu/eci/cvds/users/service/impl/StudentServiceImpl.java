@@ -75,6 +75,7 @@ public class StudentServiceImpl implements StudentService {
                 .birthDate(dto.getBirthDate())
                 .address(dto.getAddress())
                 .emergencyContact(contact)
+                .active(true)
                 .build();
         
         Student savedStudent = studentRepository.save(student);

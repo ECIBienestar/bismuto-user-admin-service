@@ -19,9 +19,9 @@ import java.time.LocalDateTime;
  * @since 2025-05-09
  */
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Schema(description = "Staff availability time slot")
 public class ScheduleEntryDTO {
     

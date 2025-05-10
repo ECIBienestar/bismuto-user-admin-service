@@ -19,6 +19,7 @@ import edu.eci.cvds.users.dto.ErrorResponse;
 import edu.eci.cvds.users.dto.ScheduleEntryDTO;
 import edu.eci.cvds.users.dto.StaffResponseDTO;
 import edu.eci.cvds.users.dto.UserRequestDTO;
+import edu.eci.cvds.users.model.enums.Specialty;
 import edu.eci.cvds.users.service.StaffService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

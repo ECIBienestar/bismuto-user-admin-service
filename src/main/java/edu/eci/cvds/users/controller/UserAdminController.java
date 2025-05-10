@@ -1,6 +1,7 @@
 package edu.eci.cvds.users.controller;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ import edu.eci.cvds.users.dto.ErrorResponse;
 import edu.eci.cvds.users.dto.UserActivityLogDTO;
 import edu.eci.cvds.users.dto.UserResponseDTO;
 import edu.eci.cvds.users.service.UserAdminService;
+import edu.eci.cvds.users.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -43,9 +45,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @PreAuthorize("hasAuthority('ADMINISTRATOR')")
 public class UserAdminController {
     private final UserAdminService adminService;
+    private final UserService userService;
 
-    public UserAdminController(UserAdminService adminService) {
+    public UserAdminController(UserAdminService adminService, UserService userService) {
         this.adminService = adminService;
+        this.userService = userService;
     }
 
     @Operation(
@@ -204,5 +208,33 @@ public class UserAdminController {
             @RequestParam(defaultValue = "false") boolean deleteAssociatedData) {
         adminService.deleteUserWithOptions(id, softDelete, deleteAssociatedData);
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(
+        summary = "Delete all users", 
+        description = "Removes ALL users from the system. This operation is irreversible and extremely destructive. Use with extreme caution."
+    )
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200", 
+            description = "All users deleted successfully"
+        ),
+        @ApiResponse(
+            responseCode = "403", 
+            description = "Insufficient permissions",
+            content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+        )
+    })
+    @DeleteMapping("/all")
+    public ResponseEntity<Map<String, Object>> deleteAllUsers() {
+        
+        long deletedCount = userService.deleteAllUsers();
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "All users have been deleted from the system");
+        response.put("deletedCount", deletedCount);
+        response.put("timestamp", LocalDateTime.now());
+        
+        return ResponseEntity.ok(response);
     }
 }

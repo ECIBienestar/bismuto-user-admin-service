@@ -77,6 +77,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
+    public long deleteAllUsers() {
+        log.warn("Deleting ALL users from the system - this operation is irreversible");
+        
+        long userCount = userRepository.count();
+        userRepository.deleteAll();
+        
+        log.warn("Successfully deleted {} users from the system", userCount);
+        
+        return userCount;
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public List<UserResponseDTO> getUsersByRole(Role role) {
         log.info("Retrieving users with role: {}", role);
@@ -85,6 +98,24 @@ public class UserServiceImpl implements UserService {
                 .toList();
     }
     
+    @Override
+    @Transactional(readOnly = true)
+    public UserResponseDTO getUserByEmail(String email) {
+        log.info("Retrieving user with email: {}", email);
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
+        return mapToDto(user);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<UserResponseDTO> searchUsersByEmail(String emailPartial) {
+        log.info("Searching users with email containing: {}", emailPartial);
+        return userRepository.findByEmailContainingIgnoreCase(emailPartial).stream()
+                .map(this::mapToDto)
+                .toList();
+    }
+
     /**
      * Maps a User entity to a UserResponseDTO.
      * 

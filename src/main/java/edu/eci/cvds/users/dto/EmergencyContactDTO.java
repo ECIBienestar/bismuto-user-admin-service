@@ -15,13 +15,13 @@ import lombok.NoArgsConstructor;
  * @since 2025-05-09
  */
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class EmergencyContactDTO {
     private Long id;
     private String fullName;
-    private Long phone;
+    private String phone;
     private IdType idType;
     private String idNumber;
     private Relationship relationship;

@@ -181,4 +181,59 @@ public class UserController {
         List<UserResponseDTO> users = userService.getUsersByRole(role);
         return ResponseEntity.ok(users);
     }
+
+    @Operation(
+        summary = "Get user by email", 
+        description = "Retrieves a user by their email address."
+    )
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200", 
+            description = "User found successfully",
+            content = @Content(schema = @Schema(implementation = UserResponseDTO.class))
+        ),
+        @ApiResponse(
+            responseCode = "404", 
+            description = "User not found",
+            content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+        ),
+        @ApiResponse(
+            responseCode = "403", 
+            description = "Insufficient permissions",
+            content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+        )
+    })
+    @GetMapping("/by-email")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRATOR', 'WELLNESS_STAFF')")
+    public ResponseEntity<UserResponseDTO> getUserByEmail(
+            @Parameter(description = "Email address", required = true)
+            @RequestParam String email) {
+        UserResponseDTO user = userService.getUserByEmail(email);
+        return ResponseEntity.ok(user);
+    }
+
+    @Operation(
+        summary = "Search users by email", 
+        description = "Searches for users whose email contains the given text."
+    )
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200", 
+            description = "Search completed successfully",
+            content = @Content(schema = @Schema(implementation = UserResponseDTO.class))
+        ),
+        @ApiResponse(
+            responseCode = "403", 
+            description = "Insufficient permissions",
+            content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+        )
+    })
+    @GetMapping("/search")
+    @PreAuthorize("hasAnyAuthority('ADMINISTRATOR', 'WELLNESS_STAFF')")
+    public ResponseEntity<List<UserResponseDTO>> searchUsersByEmail(
+            @Parameter(description = "Partial email to search for", required = true)
+            @RequestParam String email) {
+        List<UserResponseDTO> users = userService.searchUsersByEmail(email);
+        return ResponseEntity.ok(users);
+    }
 }
