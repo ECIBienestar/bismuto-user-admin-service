@@ -55,6 +55,18 @@ bismuto-user-admin-service/
             └── edu/eci/cvds/users/
                 └── UserAdminApplicationTest.java
 ```
+ 
+### Class Diagram:
+
+![DiagramaClasesUsuarios](https://github.com/user-attachments/assets/572dd755-e266-4a6a-a6d6-fa6559265052)
+
+### Component Diagram:
+
+![DiagramaComponentesUsuarios](https://github.com/user-attachments/assets/ed857946-ba6e-4b0f-8d86-2fe73388e58a)
+
+### Entity-relationship model:
+
+![DiagramaDatosUsuariosEditable](https://github.com/user-attachments/assets/6d430187-43e3-48c1-8e92-01d18da97c71)
 
 ## 🚀 How to Run the Project
 
@@ -153,6 +165,20 @@ Describes how objects interact in a specific sequence of events over time. It fo
 | PUT    | /api/users/{id}/profile         | Update user profile data                  |
 | GET    | /api/users/{id}/services        | Get user service access                   |
 | PUT    | /api/users/{id}/services        | Update user service access                |
+
+### 📘 Accessing the Swagger Documentation
+
+Once the project is running locally, you can access the auto-generated API documentation provided by **SpringDoc Swagger UI** at the following URL:
+``` 
+http://localhost:8080/swagger-ui/index.html
+```
+This interface allows you to:
+
+- Explore all available endpoints
+  
+- Send test requests directly from the browser
+  
+- View request/response models and schemas
 
 ## 🧪 Running Tests
 

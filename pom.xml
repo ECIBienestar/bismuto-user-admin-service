@@ -112,6 +112,13 @@
             <version>1.18.24</version>
         </dependency>
 
+        <!-- ModelMapper -->
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>3.2.2</version>
+        </dependency>
+
         <!-- Jakarta Validation -->
         <dependency>
             <groupId>jakarta.validation</groupId>
