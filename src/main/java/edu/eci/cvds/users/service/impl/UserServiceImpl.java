@@ -130,6 +130,7 @@ public class UserServiceImpl implements UserService {
                 .phone(user.getPhone())
                 .email(user.getEmail())
                 .role(user.getRole())
+                .active(user.isActive())
                 .build();
     }
 }

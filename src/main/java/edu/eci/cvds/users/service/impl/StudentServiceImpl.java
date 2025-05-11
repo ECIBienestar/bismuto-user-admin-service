@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
@@ -37,6 +38,7 @@ public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
     private final EmergencyContactRepository contactRepository;
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
@@ -47,7 +49,6 @@ public class StudentServiceImpl implements StudentService {
         if (userRepository.existsById(dto.getId())) {
             throw DuplicateResourceException.create("User", "id", dto.getId());
         }
-        
         if (userRepository.findByEmail(dto.getEmail()).isPresent()) {
             throw DuplicateResourceException.create("User", "email", dto.getEmail());
         }
@@ -56,6 +57,14 @@ public class StudentServiceImpl implements StudentService {
         if (studentRepository.findByStudentCode(dto.getStudentCode()).isPresent()) {
             throw DuplicateResourceException.create(STUDENT, "studentCode", dto.getStudentCode());
         }
+
+        // Generate default password if not provided
+        String password = dto.getPassword() != null ? 
+            dto.getPassword() : 
+            generateDefaultPassword(dto);
+
+        // Encrypt password
+        String encodedPassword = passwordEncoder.encode(password);
         
         // Get emergency contact
         EmergencyContact contact = contactRepository.findById(dto.getEmergencyContactId())
@@ -76,12 +85,26 @@ public class StudentServiceImpl implements StudentService {
                 .address(dto.getAddress())
                 .emergencyContact(contact)
                 .active(true)
+                .password(encodedPassword)
                 .build();
         
         Student savedStudent = studentRepository.save(student);
         log.info("Student created successfully: {}", savedStudent.getId());
         
         return mapToDto(savedStudent);
+    }
+
+    /**
+     * Generates a default password for a student account.
+     * 
+     * The default password is constructed by combining the student's code, the '@' character, and the year of their birth date.
+     * Format: {studentCode}@{birthYear}
+     *
+     * @param dto The StudentRequestDTO containing student information
+     * @return A string representing the generated default password
+     */
+    private String generateDefaultPassword(StudentRequestDTO dto) {
+        return dto.getStudentCode() + "@" + dto.getBirthDate().getYear();
     }
 
     @Override
@@ -209,6 +232,7 @@ public class StudentServiceImpl implements StudentService {
                 .birthDate(student.getBirthDate())
                 .address(student.getAddress())
                 .emergencyContact(contactDto)
+                .active(student.isActive())
                 .build();
     }
 }

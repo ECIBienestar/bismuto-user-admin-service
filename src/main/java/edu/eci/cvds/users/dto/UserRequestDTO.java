@@ -2,6 +2,7 @@ package edu.eci.cvds.users.dto;
 
 import edu.eci.cvds.users.model.enums.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -25,4 +26,7 @@ public class UserRequestDTO extends BaseUserDTO {
     
     @Schema(description = "Role of the user", example = "ADMINISTRATOR")
     private Role role;
+    
+    @Schema(description = "Initial password for the user", example = "SecureP@ss123")
+    private String password;
 }

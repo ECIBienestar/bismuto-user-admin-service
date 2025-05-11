@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -39,6 +40,7 @@ public class StaffServiceImpl implements StaffService {
     private static final String STAFF = "Staff";
     private final StaffRepository staffRepository;
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
@@ -69,6 +71,14 @@ public class StaffServiceImpl implements StaffService {
         } else if (role == Role.TRAINER) {
             defaultSpecialty = Specialty.FITNESS_COACH;
         }
+
+        // Geberate default password if not provided
+        String password = dto.getPassword() != null ? 
+                dto.getPassword() : 
+                generateDefaultPassword(dto);
+        
+        // Encrypt password
+        String encodedPassword = passwordEncoder.encode(password);
         
         // Crear staff member
         Staff staff = Staff.builder()
@@ -80,6 +90,7 @@ public class StaffServiceImpl implements StaffService {
                 .role(role)
                 .specialty(defaultSpecialty)
                 .active(true)
+                .password(encodedPassword)
                 .availableSchedule(new ArrayList<>())
                 .build();
         
@@ -87,6 +98,17 @@ public class StaffServiceImpl implements StaffService {
         log.info("Staff member created successfully: {}", savedStaff.getId());
         
         return mapToDto(savedStaff);
+    }
+
+    /**
+     * Generates a default password for a user based on their ID.
+     * The password follows the format: {userI}D@ECI 
+     *
+     * @param dto The user request data transfer object containing user information
+     * @return A string representing the generated default password
+     */
+    private String generateDefaultPassword(UserRequestDTO dto) {
+        return dto.getId() + "@ECI";
     }
 
     @Override
@@ -283,6 +305,7 @@ public class StaffServiceImpl implements StaffService {
                 .role(staff.getRole())
                 .specialty(staff.getSpecialty())
                 .availableSchedule(scheduleEntries)
+                .active(staff.isActive())
                 .build();
     }
 }

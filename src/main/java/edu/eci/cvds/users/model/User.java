@@ -61,4 +61,8 @@ public abstract class User {
 
     @Column(nullable = false)
     private boolean active = true;
+
+    @Column(nullable = false)
+    @NotBlank(message = "Password cannot be blank")
+    private String password;
 }
