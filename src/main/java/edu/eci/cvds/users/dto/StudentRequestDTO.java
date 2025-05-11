@@ -52,4 +52,7 @@ public class StudentRequestDTO extends UserRequestDTO {
     @Schema(description = "ID of the emergency contact", example = "987654321")
     @NotNull(message = "Emergency contact ID cannot be null")
     private Long emergencyContactId;
+
+    @Schema(description = "Initial password", example = "Student@2025")
+    private String password;
 }
