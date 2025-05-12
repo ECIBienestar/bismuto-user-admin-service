@@ -21,7 +21,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 // CSRF is disabled because this is a stateless REST API using JWT for authentication.
-                .csrf(csrf -> csrf.disable())
+                //.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth ->
                         auth.anyRequest().permitAll()
                 );
