@@ -25,7 +25,7 @@ import edu.eci.cvds.users.model.enums.Specialty;
 @Table(name = "staff")
 @Getter
 @Setter
-@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
+@NoArgsConstructor
 @SuperBuilder
 public class Staff extends User {
    
