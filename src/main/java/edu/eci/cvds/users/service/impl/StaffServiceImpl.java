@@ -281,7 +281,7 @@ public class StaffServiceImpl implements StaffService {
      * @param staff the staff entity
      * @return the staff DTO
      */
-    private StaffResponseDTO mapToDto(Staff staff) {
+    public StaffResponseDTO mapToDto(Staff staff) {
         List<ScheduleEntryDTO> scheduleEntries = null;
         
         if (staff.getAvailableSchedule() != null) {
@@ -307,5 +307,9 @@ public class StaffServiceImpl implements StaffService {
                 .availableSchedule(scheduleEntries)
                 .active(staff.isActive())
                 .build();
+    }
+
+    public StaffResponseDTO getStaffResponseDTO(Staff staff) {
+        return mapToDto(staff);
     }
 }

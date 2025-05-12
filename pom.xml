@@ -126,6 +126,12 @@
             <version>3.0.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.el</artifactId>
+            <version>4.0.2</version>
+        </dependency>
+
         <!-- JWT Dependencies -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
@@ -176,17 +182,37 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
 
-        <!-- API Documentation -->
         <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>2.3.0</version>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>5.11.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>5.11.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>8.0.1.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.1.Final</version>
         </dependency>
     </dependencies>
 
@@ -226,7 +252,8 @@
                         <configuration>
                             <excludes>
                                 <exclude>**/config/*</exclude>
-                                <exclude>**/model/*</exclude>
+                                <exclude>**/security/*</exclude>
+                                <exclude>**/repository/*</exclude>
                                 <exclude>**/*UserAdminApplication.class</exclude>
                             </excludes>
                         </configuration>
@@ -237,7 +264,8 @@
                         <configuration>
                             <excludes>
                                 <exclude>**/config/*</exclude>
-                                <exclude>**/model/*</exclude>
+                                <exclude>**/security/*</exclude>
+                                <exclude>**/repository/*</exclude>
                                 <exclude>**/*UserAdminApplication.class</exclude>
                             </excludes>
                             <rules>
@@ -247,7 +275,7 @@
                                         <limit>
                                             <counter>CLASS</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.00</minimum> <!-- TODO: Set minimum coverage -->
+                                            <minimum>0.80</minimum>
                                         </limit>
                                     </limits>
                                 </rule>

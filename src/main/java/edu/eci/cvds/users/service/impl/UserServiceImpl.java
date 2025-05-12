@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
      * @param user the user entity
      * @return the user DTO
      */
-    private UserResponseDTO mapToDto(User user) {
+    public UserResponseDTO mapToDto(User user) {
         return UserResponseDTO.builder()
                 .id(user.getId())
                 .idType(user.getIdType())
