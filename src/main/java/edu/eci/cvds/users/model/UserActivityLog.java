@@ -79,7 +79,7 @@ public class UserActivityLog {
     * Lifecycle callback to ensure ID and timestamp are set before persisting.
     */
    @PrePersist
-   private void prePersist() {
+   public void prePersist() {
        if (this.logId == null) {
            this.logId = UUID.randomUUID().toString();
        }
