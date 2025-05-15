@@ -44,7 +44,7 @@ class AuthControllerTest {
 
         ResponseEntity<AuthResponseDTO> response = authController.validateCredentials(credentials);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("200 OK", String.valueOf(response.getStatusCode()));
         assertTrue(response.getBody().isAuthenticated());
         verify(authService, times(1)).validateCredentials(credentials);
     }
@@ -56,7 +56,7 @@ class AuthControllerTest {
 
         ResponseEntity<AuthResponseDTO> response = authController.updatePassword(userId, passwordUpdate);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("200 OK", String.valueOf(response.getStatusCode()));
         verify(authService, times(1)).updatePassword(userId, passwordUpdate);
     }
 
@@ -70,7 +70,7 @@ class AuthControllerTest {
 
         ResponseEntity<AuthResponseDTO> response = authController.validateCredentials(credentials);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("200 OK", String.valueOf(response.getStatusCode()));
         assertFalse(response.getBody().isAuthenticated());
     }
 
@@ -85,7 +85,7 @@ class AuthControllerTest {
 
         ResponseEntity<AuthResponseDTO> response = authController.updatePassword(userId, passwordUpdate);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("200 OK", String.valueOf(response.getStatusCode()));
         assertFalse(response.getBody().isAuthenticated());
     }
 }

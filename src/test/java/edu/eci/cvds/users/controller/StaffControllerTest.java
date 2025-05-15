@@ -61,7 +61,7 @@ class StaffControllerTest {
 
         ResponseEntity<StaffResponseDTO> response = staffController.getStaffById("123");
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("200 OK", String.valueOf(response.getStatusCode()));
         assertEquals("123", response.getBody().getId());
         verify(staffService, times(1)).getStaffById("123");
     }
@@ -72,7 +72,7 @@ class StaffControllerTest {
 
         ResponseEntity<StaffResponseDTO> response = staffController.createStaff(userRequest);
 
-        assertEquals(201, response.getStatusCodeValue());
+        assertEquals("201 CREATED", String.valueOf(response.getStatusCode()));
         assertEquals("123", response.getBody().getId());
         verify(staffService, times(1)).createStaff(userRequest);
     }
@@ -83,7 +83,7 @@ class StaffControllerTest {
 
         ResponseEntity<ScheduleEntryDTO> response = staffController.addScheduleEntry("123", scheduleEntry);
 
-        assertEquals(201, response.getStatusCodeValue());
+        assertEquals("201 CREATED", String.valueOf(response.getStatusCode()));
         assertNotNull(response.getBody().getStartTime());
         verify(staffService, times(1)).addStaffScheduleEntry("123", scheduleEntry);
     }
@@ -94,7 +94,7 @@ class StaffControllerTest {
 
         ResponseEntity<Void> response = staffController.removeScheduleEntry("123", 1L);
 
-        assertEquals(204, response.getStatusCodeValue());
+        assertEquals("204 NO_CONTENT", String.valueOf(response.getStatusCode()));
         verify(staffService, times(1)).removeStaffScheduleEntry("123", 1L);
     }
 
@@ -105,7 +105,7 @@ class StaffControllerTest {
 
         ResponseEntity<List<StaffResponseDTO>> response = staffController.getAvailableStaff(date);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("200 OK", String.valueOf(response.getStatusCode()));
         assertEquals(1, response.getBody().size());
         verify(staffService, times(1)).getAvailableStaff(date);
     }
@@ -116,7 +116,7 @@ class StaffControllerTest {
 
         ResponseEntity<List<StaffResponseDTO>> response = staffController.getStaffBySpecialty("medicine");
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("200 OK", String.valueOf(response.getStatusCode()));
         assertEquals(1, response.getBody().size());
         verify(staffService, times(1)).getStaffBySpecialty("medicine");
     }
@@ -127,7 +127,7 @@ class StaffControllerTest {
 
         ResponseEntity<Void> response = staffController.deleteStaff("123");
 
-        assertEquals(204, response.getStatusCodeValue());
+        assertEquals("204 NO_CONTENT", String.valueOf(response.getStatusCode()));
         verify(staffService, times(1)).deleteStaff("123");
     }
 }

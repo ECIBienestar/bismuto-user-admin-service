@@ -55,7 +55,7 @@ class StudentControllerTest {
 
         ResponseEntity<StudentResponseDTO> response = studentController.getStudentById("123");
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("200 OK", String.valueOf(response.getStatusCode()));
         assertEquals("123", response.getBody().getId());
         verify(studentService, times(1)).getStudentById("123");
     }
@@ -66,7 +66,7 @@ class StudentControllerTest {
 
         ResponseEntity<StudentResponseDTO> response = studentController.createStudent(studentRequest);
 
-        assertEquals(201, response.getStatusCodeValue());
+        assertEquals("201 CREATED", String.valueOf(response.getStatusCode()));
         assertEquals("123", response.getBody().getId());
         verify(studentService, times(1)).createStudent(studentRequest);
     }
@@ -77,7 +77,7 @@ class StudentControllerTest {
 
         ResponseEntity<StudentResponseDTO> response = studentController.updateStudent("123", studentRequest);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("200 OK", String.valueOf(response.getStatusCode()));
         assertEquals("123", response.getBody().getId());
         verify(studentService, times(1)).updateStudent("123", studentRequest);
     }
@@ -87,10 +87,10 @@ class StudentControllerTest {
         when(studentService.getStudentsByProgram(Program.SOFTWARE_ENGINEERING))
                 .thenReturn(Arrays.asList(studentResponse));
 
-        ResponseEntity<List<StudentResponseDTO>> response =
-                studentController.getStudentsByProgram(Program.SOFTWARE_ENGINEERING);
+        ResponseEntity<List<StudentResponseDTO>> response = studentController
+                .getStudentsByProgram(Program.SOFTWARE_ENGINEERING);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("200 OK", String.valueOf(response.getStatusCode()));
         assertEquals(1, response.getBody().size());
         verify(studentService, times(1)).getStudentsByProgram(Program.SOFTWARE_ENGINEERING);
     }
@@ -100,10 +100,9 @@ class StudentControllerTest {
         when(studentService.getStudentsBySemester(5))
                 .thenReturn(Arrays.asList(studentResponse));
 
-        ResponseEntity<List<StudentResponseDTO>> response =
-                studentController.getStudentsBySemester(5);
+        ResponseEntity<List<StudentResponseDTO>> response = studentController.getStudentsBySemester(5);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("200 OK", String.valueOf(response.getStatusCode()));
         assertEquals(1, response.getBody().size());
         verify(studentService, times(1)).getStudentsBySemester(5);
     }
@@ -114,7 +113,7 @@ class StudentControllerTest {
 
         ResponseEntity<Void> response = studentController.deleteStudent("123");
 
-        assertEquals(204, response.getStatusCodeValue());
+        assertEquals("204 NO_CONTENT", String.valueOf(response.getStatusCode()));
         verify(studentService, times(1)).deleteStudent("123");
     }
 }
