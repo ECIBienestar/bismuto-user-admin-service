@@ -13,43 +13,22 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.2</version>
+        <version>3.4.4</version>
         <relativePath/>
     </parent>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
-        <!-- Spring Cloud BOM version for compatibility with Spring Boot 3.2.x -->
-        <spring-cloud.version>2023.0.3</spring-cloud.version>
-
-        <!-- SonarCloud Properties -->
-        <sonar.projectKey>JAPV-X2612:laboratory-reservation</sonar.projectKey>
-        <sonar.organization>japv-x2612</sonar.organization>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-        <sonar.coverage.exclusions>src/**/configurators/*</sonar.coverage.exclusions>
-
         <!-- SonarQube Properties -->
-        <sonar.projectKey>library</sonar.projectKey>
-        <sonar.projectName>library</sonar.projectName>
-        <sonar.host.url>http://localhost:9000</sonar.host.url>
-        <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-        <sonar.coverage.exclusions>src/**/configurators/*</sonar.coverage.exclusions>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.organization>ecibienestar</sonar.organization>
+        <sonar.projectKey>ecibienestar</sonar.projectKey>
+        <sonar.projectName>Reservas_Sys</sonar.projectName>  
+        <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.coverage.exclusions>**/model/*,**/dto/*,**/security/**,**/controller/*,**/utils/*,**/config/*,**/UserAdmin=Application.java</sonar.coverage.exclusions>
+        <sonar.coverage.jacoco.xmlReportPaths>../app-it/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
-
-    <!-- Import Spring Cloud BOM for OpenFeign support -->
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <dependencies>
         <!-- Spring Boot Starters -->
@@ -63,6 +42,7 @@
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -82,19 +62,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-
-        <!-- Feign HTTP client -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
-
-        <!-- MariaDB Dependency -->
-        <dependency>
-            <groupId>org.mariadb.jdbc</groupId>
-            <artifactId>mariadb-java-client</artifactId>
-            <scope>runtime</scope>
         </dependency>
 
         <!-- Development Tools -->
@@ -210,54 +177,69 @@
                 </configuration>
             </plugin>
 
-            <!-- JaCoCo Plugin -->
+            <!-- SonarQube Plugin -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.12</version>
                 <executions>
                     <execution>
-                        <goals><goal>prepare-agent</goal></goals>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
                     </execution>
                     <execution>
                         <id>report</id>
                         <phase>test</phase>
-                        <goals><goal>report</goal></goals>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
                         <configuration>
                             <excludes>
-                                <exclude>**/config/*</exclude>
                                 <exclude>**/model/*</exclude>
-                                <exclude>**/*UserAdminApplication.class</exclude>
+                                <exclude>**/dto/*</exclude>
+                                <exclude>**/config/*</exclude>
+                                <exclude>**/security/*</exclude>
+                                <exclude>**/UserAdminApplication.class</exclude>
                             </excludes>
                         </configuration>
                     </execution>
                     <execution>
                         <id>jacoco-check</id>
-                        <goals><goal>check</goal></goals>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
                         <configuration>
-                            <excludes>
-                                <exclude>**/config/*</exclude>
-                                <exclude>**/model/*</exclude>
-                                <exclude>**/*UserAdminApplication.class</exclude>
-                            </excludes>
                             <rules>
+                                <rule>
+                                    <element>CLASS</element>
+                                    <excludes>
+                                    <exclude>edu/eci/cvds/UserAdminApplication</exclude>
+                                    </excludes>
+                                </rule>
                                 <rule>
                                     <element>PACKAGE</element>
                                     <limits>
                                         <limit>
                                             <counter>CLASS</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.00</minimum> <!-- TODO: Set minimum coverage -->
+                                            <minimum>0.85</minimum>
                                         </limit>
                                     </limits>
                                 </rule>
                             </rules>
+                            <excludes>
+                                <exclude>**/model/*</exclude>
+                                <exclude>**/dto/*</exclude>
+                                <exclude>**/config/*</exclude>
+                                <exclude>**/security/*</exclude>
+                                <exclude>**/UserAdminApplication.class</exclude>
+                            </excludes>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
 
-            <!-- SonarQube Plugin -->
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
