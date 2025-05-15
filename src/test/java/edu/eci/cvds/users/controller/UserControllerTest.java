@@ -1,22 +1,27 @@
 package edu.eci.cvds.users.controller;
 
-import edu.eci.cvds.users.dto.UserRequestDTO;
-import edu.eci.cvds.users.dto.UserResponseDTO;
-import edu.eci.cvds.users.model.enums.Role;
-import edu.eci.cvds.users.service.UserService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.http.ResponseEntity;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.ResponseEntity;
+
+import edu.eci.cvds.users.dto.UserRequestDTO;
+import edu.eci.cvds.users.dto.UserResponseDTO;
+import edu.eci.cvds.users.model.enums.Role;
+import edu.eci.cvds.users.service.UserService;
 
 @ExtendWith(MockitoExtension.class)
 class UserControllerTest {
@@ -54,7 +59,7 @@ class UserControllerTest {
 
         ResponseEntity<List<UserResponseDTO>> response = userController.getAllUsers();
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("200 OK", String.valueOf(response.getStatusCode()));
         assertEquals(1, response.getBody().size());
         assertEquals("123", response.getBody().get(0).getId());
         verify(userService, times(1)).getAllUsers();
@@ -66,7 +71,7 @@ class UserControllerTest {
 
         ResponseEntity<UserResponseDTO> response = userController.getUserById("123");
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("200 OK", String.valueOf(response.getStatusCode()));
         assertEquals("123", response.getBody().getId());
         verify(userService, times(1)).getUserById("123");
     }
@@ -77,7 +82,7 @@ class UserControllerTest {
 
         ResponseEntity<UserResponseDTO> response = userController.updateUser("123", sampleRequest);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("200 OK", String.valueOf(response.getStatusCode()));
         assertEquals("123", response.getBody().getId());
         verify(userService, times(1)).updateUser("123", sampleRequest);
     }
@@ -88,7 +93,7 @@ class UserControllerTest {
 
         ResponseEntity<Void> response = userController.deleteUser("123");
 
-        assertEquals(204, response.getStatusCodeValue());
+        assertEquals("204 NO_CONTENT", String.valueOf(response.getStatusCode()));
         verify(userService, times(1)).deleteUserById("123");
     }
 
@@ -98,7 +103,7 @@ class UserControllerTest {
 
         ResponseEntity<List<UserResponseDTO>> response = userController.getUsersByRole(Role.PREFECT);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("200 OK", String.valueOf(response.getStatusCode()));
         assertEquals(1, response.getBody().size());
         assertEquals(Role.PREFECT, response.getBody().get(0).getRole());
         verify(userService, times(1)).getUsersByRole(Role.PREFECT);
@@ -110,7 +115,7 @@ class UserControllerTest {
 
         ResponseEntity<UserResponseDTO> response = userController.getUserByEmail("test@example.com");
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("200 OK", String.valueOf(response.getStatusCode()));
         assertEquals("test@example.com", response.getBody().getEmail());
         verify(userService, times(1)).getUserByEmail("test@example.com");
     }
@@ -121,7 +126,7 @@ class UserControllerTest {
 
         ResponseEntity<List<UserResponseDTO>> response = userController.searchUsersByEmail("test");
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("200 OK", String.valueOf(response.getStatusCode()));
         assertEquals(1, response.getBody().size());
         assertTrue(response.getBody().get(0).getEmail().contains("test"));
         verify(userService, times(1)).searchUsersByEmail("test");

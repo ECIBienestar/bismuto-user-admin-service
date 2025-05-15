@@ -1,10 +1,8 @@
 package edu.eci.cvds.users.exception;
 
-import java.lang.reflect.Method;
 import edu.eci.cvds.users.dto.ErrorResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.springframework.core.MethodParameter;
 
 import java.util.List;
@@ -99,8 +96,7 @@ class GlobalExceptionHandlerTest {
 
     @Test
     void testHandleMissingServletRequestParameter() {
-        MissingServletRequestParameterException ex =
-                new MissingServletRequestParameterException("id", "String");
+        MissingServletRequestParameterException ex = new MissingServletRequestParameterException("id", "String");
 
         WebRequest request = mock(WebRequest.class);
         when(request.getDescription(false)).thenReturn("uri=/api/data");

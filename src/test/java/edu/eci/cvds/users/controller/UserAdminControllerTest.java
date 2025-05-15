@@ -1,9 +1,7 @@
 package edu.eci.cvds.users.controller;
 
-import edu.eci.cvds.users.dto.ErrorResponse;
 import edu.eci.cvds.users.dto.UserActivityLogDTO;
 import edu.eci.cvds.users.dto.UserResponseDTO;
-import edu.eci.cvds.users.model.enums.Role;
 import edu.eci.cvds.users.service.UserAdminService;
 import edu.eci.cvds.users.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +17,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.lang.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -58,7 +55,7 @@ class UserAdminControllerTest {
 
         ResponseEntity<UserResponseDTO> response = userAdminController.changeUserStatus("123", false);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("200 OK", String.valueOf(String.valueOf(response.getStatusCode())));
         assertNotNull(response.getBody());
         assertEquals("123", response.getBody().getId());
         verify(adminService, times(1)).changeUserStatus("123", false);
@@ -69,11 +66,10 @@ class UserAdminControllerTest {
         List<UserActivityLogDTO> logs = Arrays.asList(sampleLog);
         when(adminService.getUserActivityLogs("123", null, null)).thenReturn(logs);
 
-        ResponseEntity<List<UserActivityLogDTO>> response =
-                userAdminController.getUserActivityLogs("123", null, null);
+        ResponseEntity<List<UserActivityLogDTO>> response = userAdminController.getUserActivityLogs("123", null, null);
 
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals(1, response.getBody().size());
+        assertEquals("200 OK", String.valueOf(response.getStatusCode()));
+        assertEquals(1, Integer.valueOf(response.getBody().size()));
         assertEquals("123", response.getBody().get(0).getUserId());
     }
 
@@ -86,7 +82,7 @@ class UserAdminControllerTest {
 
         ResponseEntity<Map<String, Object>> response = userAdminController.getUserStatistics();
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("200 OK", String.valueOf(response.getStatusCode()));
         assertEquals(10, response.getBody().get("totalUsers"));
         assertEquals(7, response.getBody().get("activeUsers"));
     }
@@ -97,7 +93,7 @@ class UserAdminControllerTest {
 
         ResponseEntity<Void> response = userAdminController.deleteUserWithOptions("123", true, false);
 
-        assertEquals(204, response.getStatusCodeValue());
+        assertEquals("204 NO_CONTENT", String.valueOf(response.getStatusCode()));
         assertNull(response.getBody());
         verify(adminService).deleteUserWithOptions("123", true, false);
     }
@@ -113,7 +109,7 @@ class UserAdminControllerTest {
 
         ResponseEntity<Map<String, Object>> response = userAdminController.deleteAllUsers();
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("200 OK", String.valueOf(response.getStatusCode()));
         assertEquals("All users have been deleted from the system", response.getBody().get("message"));
         assertEquals(5L, response.getBody().get("deletedCount"));
     }
@@ -126,10 +122,9 @@ class UserAdminControllerTest {
 
         when(adminService.getUserActivityLogs(null, start, end)).thenReturn(logs);
 
-        ResponseEntity<List<UserActivityLogDTO>> response =
-                userAdminController.getUserActivityLogs(null, start, end);
+        ResponseEntity<List<UserActivityLogDTO>> response = userAdminController.getUserActivityLogs(null, start, end);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("200 OK", String.valueOf(response.getStatusCode()));
         assertEquals(1, response.getBody().size());
     }
 
@@ -156,7 +151,7 @@ class UserAdminControllerTest {
 
         ResponseEntity<UserResponseDTO> response = userAdminController.changeUserRole(userId, newRole);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("200 OK", String.valueOf(response.getStatusCode()));
         assertNotNull(response.getBody());
         assertEquals(userId, response.getBody().getId());
         verify(adminService).changeUserRole(userId, newRole);

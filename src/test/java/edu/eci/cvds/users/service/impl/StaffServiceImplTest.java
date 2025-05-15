@@ -15,13 +15,10 @@ import edu.eci.cvds.users.repository.StaffRepository;
 import edu.eci.cvds.users.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
-import java.lang.reflect.Field;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -92,7 +89,6 @@ class StaffServiceImplTest {
 
         assertThrows(DuplicateResourceException.class, () -> staffService.createStaff(dto));
     }
-
 
     @Test
     void testGetStaffById_found() {
@@ -179,8 +175,7 @@ class StaffServiceImplTest {
         LocalDate date = LocalDate.of(2025, 5, 10);
 
         when(staffRepository.findByAvailableScheduleStartTimeLessThanEqualAndAvailableScheduleEndTimeGreaterThanEqual(
-                any(), any())
-        ).thenReturn(List.of(staff1, staff2));
+                any(), any())).thenReturn(List.of(staff1, staff2));
 
         List<StaffResponseDTO> result = staffService.getAvailableStaff(date);
         assertEquals(2, result.size());
@@ -198,7 +193,6 @@ class StaffServiceImplTest {
 
         assertThrows(BadRequestException.class, () -> staffService.addStaffScheduleEntry("staff123", dto));
     }
-
 
     @Test
     void testGetStaffBySpecialtyWithInvalidEnumFallsBackToKeywordSearch() {
@@ -340,8 +334,6 @@ class StaffServiceImplTest {
 
     @Test
     void removeStaffScheduleEntryEntryNotFoundThrowsResourceNotFoundException() {
-        String staffId = "123";
-        Long entryId = 1L;
         Staff staff = new Staff();
 
         when(staffRepository.findById("123")).thenReturn(Optional.of(staff));

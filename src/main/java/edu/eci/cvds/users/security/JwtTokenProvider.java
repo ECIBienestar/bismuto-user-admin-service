@@ -26,10 +26,10 @@ public class JwtTokenProvider {
 
     @Value("${app.jwt.secret}")
     private String jwtSecret;
-    
-    @Value("${app.jwt.expiration:86400000}")  // 24 hours by default
+
+    @Value("${app.jwt.expiration:86400000}") // 24 hours by default
     private long jwtExpirationMs;
-    
+
     /**
      * Validates a JWT token.
      * 
@@ -40,22 +40,24 @@ public class JwtTokenProvider {
         try {
             SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
             Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token);
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token);
             return true;
-        } catch (SignatureException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException | IllegalArgumentException e) {
+        } catch (SignatureException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException
+                | IllegalArgumentException e) {
             // Invalid signature or JWT token
             return false;
         }
     }
-    
+
     /**
      * Extracts user details from JWT token and creates an Authentication object.
      * 
      * @param token the JWT token
      * @return the Authentication object
      */
+    @SuppressWarnings("unchecked")
     public Authentication getAuthentication(String token) {
         SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
         Claims claims = Jwts.parserBuilder()
@@ -63,21 +65,22 @@ public class JwtTokenProvider {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-        
+
         String username = claims.getSubject();
         List<String> roles = claims.get("roles", List.class);
-        
+
         List<SimpleGrantedAuthority> authorities = roles.stream()
                 .map(SimpleGrantedAuthority::new)
                 .toList();
-        
+
         User principal = new User(username, "", authorities);
-        
+
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
-    
+
     /**
-     * Helper method to extract user ID from token (useful for user-specific operations)
+     * Helper method to extract user ID from token (useful for user-specific
+     * operations)
      * 
      * @param token the JWT token
      * @return the user ID
@@ -89,7 +92,7 @@ public class JwtTokenProvider {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-        
+
         return claims.get("userId", String.class);
     }
 }
