@@ -27,7 +27,7 @@
         <sonar.projectKey>ECIBienestar_bismuto-user-admin-service</sonar.projectKey>
         <sonar.projectName>bismuto-user-admin-service</sonar.projectName>  
         <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-        <sonar.coverage.exclusions>**/model/*,**/dto/*,**/enums/*,**/security/*,**/controller/*,**/utils/*,**/config/*,**/UserAdminApplication.java</sonar.coverage.exclusions>
+        <sonar.coverage.exclusions>**/model/*,**/dto/*,**/enums/*,**/security/*,**/utils/*,**/config/*,**/UserAdminApplication.java</sonar.coverage.exclusions>
         <sonar.coverage.jacoco.xmlReportPaths>../app-it/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
