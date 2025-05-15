@@ -1,6 +1,5 @@
 package edu.eci.cvds.users.service.impl;
 
-import edu.eci.cvds.users.dto.EmergencyContactDTO;
 import edu.eci.cvds.users.dto.StudentRequestDTO;
 import edu.eci.cvds.users.dto.StudentResponseDTO;
 import edu.eci.cvds.users.exception.BadRequestException;
@@ -10,7 +9,6 @@ import edu.eci.cvds.users.model.EmergencyContact;
 import edu.eci.cvds.users.model.Student;
 import edu.eci.cvds.users.model.enums.IdType;
 import edu.eci.cvds.users.model.enums.Program;
-import edu.eci.cvds.users.model.enums.Role;
 import edu.eci.cvds.users.repository.EmergencyContactRepository;
 import edu.eci.cvds.users.repository.StudentRepository;
 import edu.eci.cvds.users.repository.UserRepository;

@@ -32,7 +32,7 @@ class EmergencyContactControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = {"ADMINISTRATOR"})
+    @WithMockUser(authorities = { "ADMINISTRATOR" })
     void createEmergencyContactShouldReturnCreated() {
         EmergencyContactRequestDTO requestDTO = new EmergencyContactRequestDTO();
         EmergencyContactDTO expectedDTO = new EmergencyContactDTO();
@@ -46,7 +46,7 @@ class EmergencyContactControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = {"WELLNESS_STAFF"})
+    @WithMockUser(authorities = { "WELLNESS_STAFF" })
     void getEmergencyContactByIdShouldReturnContact() {
         Long id = 1L;
         EmergencyContactDTO expectedDTO = new EmergencyContactDTO();
@@ -60,14 +60,15 @@ class EmergencyContactControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = {"ADMINISTRATOR"})
+    @WithMockUser(authorities = { "ADMINISTRATOR" })
     void updateEmergencyContactShouldReturnUpdatedContact() {
         Long id = 1L;
         EmergencyContactRequestDTO requestDTO = new EmergencyContactRequestDTO();
         EmergencyContactDTO expectedDTO = new EmergencyContactDTO();
         when(contactService.updateEmergencyContact(id, requestDTO)).thenReturn(expectedDTO);
 
-        ResponseEntity<EmergencyContactDTO> response = emergencyContactController.updateEmergencyContact(id, requestDTO);
+        ResponseEntity<EmergencyContactDTO> response = emergencyContactController.updateEmergencyContact(id,
+                requestDTO);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(expectedDTO, response.getBody());
@@ -75,7 +76,7 @@ class EmergencyContactControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = {"ADMINISTRATOR"})
+    @WithMockUser(authorities = { "ADMINISTRATOR" })
     void deleteEmergencyContactShouldReturnNoContent() {
         Long id = 1L;
 
@@ -86,7 +87,7 @@ class EmergencyContactControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = {"WELLNESS_STAFF"})
+    @WithMockUser(authorities = { "WELLNESS_STAFF" })
     void getAllEmergencyContactsShouldReturnList() {
         List<EmergencyContactDTO> expectedList = Arrays.asList(new EmergencyContactDTO(), new EmergencyContactDTO());
         when(contactService.getAllEmergencyContacts()).thenReturn(expectedList);
@@ -99,9 +100,9 @@ class EmergencyContactControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = {"MEDICAL_STAFF"})
+    @WithMockUser(authorities = { "MEDICAL_STAFF" })
     void getEmergencyContactByIdWithMedicalStaffShouldReturnContact() {
-        Long id = 1L;
+        Long id = 2L;
         EmergencyContactDTO expectedDTO = new EmergencyContactDTO();
         when(contactService.getEmergencyContactById(id)).thenReturn(expectedDTO);
 
