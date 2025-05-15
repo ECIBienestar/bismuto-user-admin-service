@@ -57,6 +57,7 @@ public class JwtTokenProvider {
      * @param token the JWT token
      * @return the Authentication object
      */
+    @SuppressWarnings("unchecked")
     public Authentication getAuthentication(String token) {
         SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
         Claims claims = Jwts.parserBuilder()
