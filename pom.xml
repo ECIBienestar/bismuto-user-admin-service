@@ -20,10 +20,11 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
+        <spring-cloud.version>2023.0.1</spring-cloud.version>
         <!-- SonarQube Properties -->
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.organization>ecibienestar</sonar.organization>
-        <sonar.projectKey>ecibienestar</sonar.projectKey>
+        <sonar.projectKey>ECIBienestar_bismuto-user-admin-service</sonar.projectKey>
         <sonar.projectName>bismuto-user-admin-service</sonar.projectName>  
         <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
         <sonar.coverage.exclusions>**/model/*,**/dto/*,**/enums/*,**/security/*,**/controller/*,**/utils/*,**/config/*,**/UserAdminApplication.java</sonar.coverage.exclusions>
@@ -62,6 +63,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!-- Feign HTTP client -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
 
         <!-- Development Tools -->
@@ -156,6 +163,18 @@
             <version>2.3.0</version>
         </dependency>
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>
