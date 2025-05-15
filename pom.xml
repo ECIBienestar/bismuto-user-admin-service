@@ -24,9 +24,9 @@
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.organization>ecibienestar</sonar.organization>
         <sonar.projectKey>ecibienestar</sonar.projectKey>
-        <sonar.projectName>Reservas_Sys</sonar.projectName>  
+        <sonar.projectName>bismuto-user-admin-service</sonar.projectName>  
         <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-        <sonar.coverage.exclusions>**/model/*,**/dto/*,**/security/**,**/controller/*,**/utils/*,**/config/*,**/UserAdmin=Application.java</sonar.coverage.exclusions>
+        <sonar.coverage.exclusions>**/model/*,**/dto/*,**/enums/*,**/security/*,**/controller/*,**/utils/*,**/config/*,**/UserAdminApplication.java</sonar.coverage.exclusions>
         <sonar.coverage.jacoco.xmlReportPaths>../app-it/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
@@ -198,6 +198,7 @@
                             <excludes>
                                 <exclude>**/model/*</exclude>
                                 <exclude>**/dto/*</exclude>
+                                <exclude>**/enums/*</exclude>
                                 <exclude>**/config/*</exclude>
                                 <exclude>**/security/*</exclude>
                                 <exclude>**/UserAdminApplication.class</exclude>
@@ -232,6 +233,7 @@
                                 <exclude>**/model/*</exclude>
                                 <exclude>**/dto/*</exclude>
                                 <exclude>**/config/*</exclude>
+                                <exclude>**/enums/*</exclude>
                                 <exclude>**/security/*</exclude>
                                 <exclude>**/UserAdminApplication.class</exclude>
                             </excludes>
