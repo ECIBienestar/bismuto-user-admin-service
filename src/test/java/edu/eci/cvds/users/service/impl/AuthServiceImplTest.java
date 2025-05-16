@@ -38,7 +38,7 @@ class AuthServiceImplTest {
     private CredentialsDTO invalidCredentials;
 
     @BeforeEach
-    void setUp() throws Exception {  // Añadido throws Exception
+    void setUp() throws Exception { // Añadido throws Exception
         MockitoAnnotations.openMocks(this);
 
         // Solución usando reflection para acceder al constructor protegido
@@ -141,10 +141,8 @@ class AuthServiceImplTest {
     @Test
     void updatePasswordShouldThrowWhenUserNotFound() {
         when(userRepository.findById("999")).thenReturn(Optional.empty());
-
-        assertThrows(ResourceNotFoundException.class, () -> {
-            authService.updatePassword("999", new PasswordUpdateDTO("old", "new"));
-        });
+        PasswordUpdateDTO dto = new PasswordUpdateDTO("old", "new");
+        assertThrows(ResourceNotFoundException.class, () -> authService.updatePassword("999", dto));
     }
 
     @Test
