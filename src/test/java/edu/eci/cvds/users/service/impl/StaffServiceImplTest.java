@@ -1,6 +1,7 @@
 package edu.eci.cvds.users.service.impl;
 
 import edu.eci.cvds.users.dto.ScheduleEntryDTO;
+import edu.eci.cvds.users.dto.StaffRequestDTO;
 import edu.eci.cvds.users.dto.StaffResponseDTO;
 import edu.eci.cvds.users.dto.UserRequestDTO;
 import edu.eci.cvds.users.exception.BadRequestException;
@@ -41,7 +42,7 @@ class StaffServiceImplTest {
 
     @Test
     void testCreateStaffSuccess() {
-        UserRequestDTO dto = UserRequestDTO.builder()
+        StaffRequestDTO dto = StaffRequestDTO.builder()
                 .id("123")
                 .idType(IdType.CC)
                 .fullName("Dr. House")
@@ -65,7 +66,7 @@ class StaffServiceImplTest {
 
     @Test
     void testCreateStaffDuplicateEmailThrowsException() {
-        UserRequestDTO dto = UserRequestDTO.builder()
+        StaffRequestDTO dto = StaffRequestDTO.builder()
                 .id("123")
                 .email("dup@eci.edu.co")
                 .role(Role.TRAINER)
@@ -279,7 +280,7 @@ class StaffServiceImplTest {
     void shouldUpdateStaffSuccessfully() {
         String staffId = "staff123";
 
-        UserRequestDTO dto = UserRequestDTO.builder()
+        StaffRequestDTO dto = StaffRequestDTO.builder()
                 .fullName("Nuevo Nombre")
                 .idType(IdType.CC)
                 .phone("3216549870")
@@ -347,7 +348,7 @@ class StaffServiceImplTest {
 
     @Test
     void createStaffWithExistingIdThrowsDuplicateResourceException() {
-        UserRequestDTO userRequestDTO = UserRequestDTO.builder()
+        StaffRequestDTO staffRequestDTO = StaffRequestDTO.builder()
                 .id("123")
                 .email("asad")
                 .build();
@@ -355,7 +356,7 @@ class StaffServiceImplTest {
         when(userRepository.existsById("123")).thenReturn(true);
 
         assertThrows(DuplicateResourceException.class, () -> {
-            staffService.createStaff(userRequestDTO);
+            staffService.createStaff(staffRequestDTO);
         });
 
         verify(userRepository, times(1)).existsById("123");

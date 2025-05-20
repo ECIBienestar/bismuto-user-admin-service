@@ -1,6 +1,7 @@
 package edu.eci.cvds.users.controller;
 
 import edu.eci.cvds.users.dto.ScheduleEntryDTO;
+import edu.eci.cvds.users.dto.StaffRequestDTO;
 import edu.eci.cvds.users.dto.StaffResponseDTO;
 import edu.eci.cvds.users.dto.UserRequestDTO;
 import edu.eci.cvds.users.model.enums.Specialty;
@@ -31,7 +32,7 @@ class StaffControllerTest {
     private StaffController staffController;
 
     private StaffResponseDTO staffResponse;
-    private UserRequestDTO userRequest;
+    private StaffRequestDTO userRequest;
     private ScheduleEntryDTO scheduleEntry;
 
     @BeforeEach
@@ -43,7 +44,7 @@ class StaffControllerTest {
                 .specialty(Specialty.GENERAL_MEDICINE)
                 .build();
 
-        userRequest = UserRequestDTO.builder()
+        userRequest = StaffRequestDTO.builder()
                 .id("123")
                 .fullName("Test Staff")
                 .email("staff@test.com")

@@ -1,6 +1,7 @@
 package edu.eci.cvds.users.service;
 
 import edu.eci.cvds.users.dto.ScheduleEntryDTO;
+import edu.eci.cvds.users.dto.StaffRequestDTO;
 import edu.eci.cvds.users.dto.StaffResponseDTO;
 import edu.eci.cvds.users.dto.UserRequestDTO;
 import java.time.LocalDate;
@@ -21,7 +22,7 @@ public interface StaffService {
      * @param dto the staff data
      * @return the created staff member
      */
-    StaffResponseDTO createStaff(UserRequestDTO dto);
+    StaffResponseDTO createStaff(StaffRequestDTO dto);
 
     /**
      * Retrieves a staff member by their ID.
@@ -38,7 +39,7 @@ public interface StaffService {
      * @param dto the updated staff data
      * @return the updated staff member
      */
-    StaffResponseDTO updateStaff(String id, UserRequestDTO dto);
+    StaffResponseDTO updateStaff(String id, StaffRequestDTO dto);
 
     /**
      * Deletes a staff member by their ID.
