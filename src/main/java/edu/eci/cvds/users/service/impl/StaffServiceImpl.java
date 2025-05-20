@@ -3,6 +3,7 @@ package edu.eci.cvds.users.service.impl;
 import edu.eci.cvds.users.dto.ScheduleEntryDTO;
 import edu.eci.cvds.users.dto.StaffResponseDTO;
 import edu.eci.cvds.users.dto.UserRequestDTO;
+import edu.eci.cvds.users.dto.StaffRequestDTO;
 import edu.eci.cvds.users.exception.BadRequestException;
 import edu.eci.cvds.users.exception.DuplicateResourceException;
 import edu.eci.cvds.users.exception.ResourceNotFoundException;
@@ -44,7 +45,7 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     @Transactional
-    public StaffResponseDTO createStaff(UserRequestDTO dto) {
+    public StaffResponseDTO createStaff(StaffRequestDTO dto) {
         log.info("Creating new staff member with ID: {}", dto.getId());
         
         // Check if user with same ID or email already exists
@@ -64,15 +65,18 @@ public class StaffServiceImpl implements StaffService {
             throw BadRequestException.invalidField("role", dto.getRole());
         }
         
-        // Determine default specialty based on role
-        Specialty defaultSpecialty = null;
-        if (role == Role.MEDICAL_STAFF) {
-            defaultSpecialty = Specialty.GENERAL_MEDICINE;
-        } else if (role == Role.TRAINER) {
-            defaultSpecialty = Specialty.FITNESS_COACH;
+        // Use provided specialty or determine default based on role
+        Specialty specialty = dto.getSpecialty();
+        if (specialty == null) {
+            if (role == Role.MEDICAL_STAFF) {
+                specialty = Specialty.GENERAL_MEDICINE;
+            } else if (role == Role.TRAINER) {
+                specialty = Specialty.FITNESS_COACH;
+            }
+            // If no default applies, specialty remains null
         }
-
-        // Geberate default password if not provided
+    
+        // Generate default password if not provided
         String password = dto.getPassword() != null ? 
                 dto.getPassword() : 
                 generateDefaultPassword(dto);
@@ -80,7 +84,7 @@ public class StaffServiceImpl implements StaffService {
         // Encrypt password
         String encodedPassword = passwordEncoder.encode(password);
         
-        // Crear staff member
+        // Create staff member
         Staff staff = Staff.builder()
                 .id(dto.getId())
                 .idType(dto.getIdType())
@@ -88,7 +92,7 @@ public class StaffServiceImpl implements StaffService {
                 .phone(dto.getPhone())
                 .email(dto.getEmail())
                 .role(role)
-                .specialty(defaultSpecialty)
+                .specialty(specialty)  // Use the provided or default specialty
                 .active(true)
                 .password(encodedPassword)
                 .availableSchedule(new ArrayList<>())
@@ -102,12 +106,12 @@ public class StaffServiceImpl implements StaffService {
 
     /**
      * Generates a default password for a user based on their ID.
-     * The password follows the format: {userI}D@ECI 
+     * The password follows the format: {userID}@ECI 
      *
-     * @param dto The user request data transfer object containing user information
+     * @param dto The staff request data transfer object containing user information
      * @return A string representing the generated default password
      */
-    private String generateDefaultPassword(UserRequestDTO dto) {
+    private String generateDefaultPassword(StaffRequestDTO dto) {
         return dto.getId() + "@ECI";
     }
 
@@ -122,7 +126,7 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     @Transactional
-    public StaffResponseDTO updateStaff(String id, UserRequestDTO dto) {
+    public StaffResponseDTO updateStaff(String id, StaffRequestDTO dto) {
         log.info("Updating staff member with ID: {}", id);
         
         Staff staff = staffRepository.findById(id)
@@ -150,6 +154,11 @@ public class StaffServiceImpl implements StaffService {
         staff.setPhone(dto.getPhone());
         staff.setEmail(dto.getEmail());
         staff.setRole(role);
+        
+        // Update specialty if provided
+        if (dto.getSpecialty() != null) {
+            staff.setSpecialty(dto.getSpecialty());
+        }
         
         Staff savedStaff = staffRepository.save(staff);
         log.info("Staff member updated successfully: {}", savedStaff.getId());
