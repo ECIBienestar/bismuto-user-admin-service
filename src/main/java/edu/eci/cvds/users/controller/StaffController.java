@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.eci.cvds.users.dto.ErrorResponse;
 import edu.eci.cvds.users.dto.ScheduleEntryDTO;
 import edu.eci.cvds.users.dto.StaffResponseDTO;
-import edu.eci.cvds.users.dto.UserRequestDTO;
+import edu.eci.cvds.users.dto.StaffRequestDTO;
 import edu.eci.cvds.users.service.StaffService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -63,7 +63,7 @@ public class StaffController {
         return ResponseEntity.ok(staff);
     }
 
-    @Operation(summary = "Create staff member", description = "Registers a new staff user (administrator, medical staff, trainer, etc.).")
+    @Operation(summary = "Create staff member", description = "Registers a new staff user (administrator, medical staff, trainer, etc.) with optional specialty.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Staff created successfully", content = @Content(schema = @Schema(implementation = StaffResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Invalid staff data", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
@@ -73,9 +73,9 @@ public class StaffController {
     @PostMapping
     @PreAuthorize("hasAuthority('ADMINISTRATOR')")
     public ResponseEntity<StaffResponseDTO> createStaff(
-            @Valid @RequestBody UserRequestDTO dto) {
-        StaffResponseDTO created = staffService.createStaff(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+            @Valid @RequestBody StaffRequestDTO dto) {
+    StaffResponseDTO created = staffService.createStaff(dto);
+    return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @Operation(summary = "Add schedule entry", description = "Adds a new availability time slot for a staff member.")
