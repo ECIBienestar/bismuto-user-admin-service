@@ -2,7 +2,6 @@ package edu.eci.cvds.users.service.impl;
 
 import edu.eci.cvds.users.dto.ScheduleEntryDTO;
 import edu.eci.cvds.users.dto.StaffResponseDTO;
-import edu.eci.cvds.users.dto.UserRequestDTO;
 import edu.eci.cvds.users.dto.StaffRequestDTO;
 import edu.eci.cvds.users.exception.BadRequestException;
 import edu.eci.cvds.users.exception.DuplicateResourceException;
@@ -92,7 +91,7 @@ public class StaffServiceImpl implements StaffService {
                 .phone(dto.getPhone())
                 .email(dto.getEmail())
                 .role(role)
-                .specialty(specialty)
+                .specialty(specialty)  // Use the provided or default specialty
                 .active(true)
                 .password(encodedPassword)
                 .availableSchedule(new ArrayList<>())
