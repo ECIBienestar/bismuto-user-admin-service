@@ -92,7 +92,7 @@ public class StaffServiceImpl implements StaffService {
                 .phone(dto.getPhone())
                 .email(dto.getEmail())
                 .role(role)
-                .specialty(specialty)  // Use the provided or default specialty
+                .specialty(specialty)
                 .active(true)
                 .password(encodedPassword)
                 .availableSchedule(new ArrayList<>())
