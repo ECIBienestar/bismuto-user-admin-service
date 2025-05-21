@@ -32,7 +32,7 @@ public abstract class User {
     @Id
     @Column(length = 15)
     @NotBlank(message = "ID cannot be blank")
-    @Size(min = 5, max = 15, message = "ID must be between 5 and 15 characters")
+    @Size(min = 1, max = 15, message = "ID must be between 5 and 15 characters")
     private String id; // national ID
 
     @Enumerated(EnumType.STRING)
