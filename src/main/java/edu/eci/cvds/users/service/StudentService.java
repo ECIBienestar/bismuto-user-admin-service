@@ -62,4 +62,11 @@ public interface StudentService {
      * @return list of students in the specified semester
      */
     List<StudentResponseDTO> getStudentsBySemester(int semester);
+
+    /**
+     * Retrieves all students in the system.
+     * 
+     * @return list of all students with complete information
+     */
+    List<StudentResponseDTO> getAllStudents();
 }

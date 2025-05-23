@@ -2,6 +2,7 @@ package edu.eci.cvds.users.service.impl;
 
 import edu.eci.cvds.users.dto.AuthResponseDTO;
 import edu.eci.cvds.users.dto.CredentialsDTO;
+import edu.eci.cvds.users.dto.PasswordResetDTO;
 import edu.eci.cvds.users.dto.PasswordUpdateDTO;
 import edu.eci.cvds.users.exception.BadRequestException;
 import edu.eci.cvds.users.exception.ResourceNotFoundException;
@@ -103,6 +104,35 @@ public class AuthServiceImpl implements AuthService {
                 .id(user.getId())
                 .authenticated(true)
                 .message("Password updated successfully")
+                .build();
+    }
+
+    @Override
+    @Transactional
+    public AuthResponseDTO resetPasswordByEmail(PasswordResetDTO passwordReset) {
+        log.info("Resetting password for user with email: {}", passwordReset.getEmail());
+        
+        User user = userRepository.findByEmail(passwordReset.getEmail())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + passwordReset.getEmail()));
+        
+        // Verify if user is active
+        if (!user.isActive()) {
+            log.warn("User is inactive: {}", user.getId());
+            throw new BadRequestException("User account is inactive");
+        }
+        
+        // Update password
+        user.setPassword(passwordEncoder.encode(passwordReset.getNewPassword()));
+        userRepository.save(user);
+        
+        log.info("Password reset successfully for user: {}", user.getId());
+        return AuthResponseDTO.builder()
+                .id(user.getId())
+                .fullName(user.getFullName())
+                .email(user.getEmail())
+                .role(user.getRole())
+                .authenticated(true)
+                .message("Password reset successfully")
                 .build();
     }
 }

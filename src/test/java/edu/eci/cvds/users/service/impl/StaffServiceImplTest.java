@@ -3,7 +3,6 @@ package edu.eci.cvds.users.service.impl;
 import edu.eci.cvds.users.dto.ScheduleEntryDTO;
 import edu.eci.cvds.users.dto.StaffRequestDTO;
 import edu.eci.cvds.users.dto.StaffResponseDTO;
-import edu.eci.cvds.users.dto.UserRequestDTO;
 import edu.eci.cvds.users.exception.BadRequestException;
 import edu.eci.cvds.users.exception.DuplicateResourceException;
 import edu.eci.cvds.users.exception.ResourceNotFoundException;

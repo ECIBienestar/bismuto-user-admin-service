@@ -191,6 +191,29 @@ public class StudentController {
     }
 
     @Operation(
+        summary = "Get all students", 
+        description = "Retrieves all students in the system with their complete information including semester and emergency contact."
+    )
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200", 
+            description = "Students retrieved successfully",
+            content = @Content(schema = @Schema(implementation = StudentResponseDTO.class))
+        ),
+        @ApiResponse(
+            responseCode = "403", 
+            description = "Insufficient permissions",
+            content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+        )
+    })
+    @GetMapping
+    @PreAuthorize("hasAnyAuthority('ADMINISTRATOR', 'WELLNESS_STAFF')")
+    public ResponseEntity<List<StudentResponseDTO>> getAllStudents() {
+        List<StudentResponseDTO> students = studentService.getAllStudents();
+        return ResponseEntity.ok(students);
+    }
+
+    @Operation(
         summary = "Delete student", 
         description = "Removes a student from the system. This operation is irreversible."
     )
