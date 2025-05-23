@@ -3,6 +3,7 @@ package edu.eci.cvds.users.controller;
 import edu.eci.cvds.users.dto.AuthResponseDTO;
 import edu.eci.cvds.users.dto.CredentialsDTO;
 import edu.eci.cvds.users.dto.ErrorResponse;
+import edu.eci.cvds.users.dto.PasswordResetDTO;
 import edu.eci.cvds.users.dto.PasswordUpdateDTO;
 import edu.eci.cvds.users.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -47,7 +48,7 @@ public class AuthController {
     }
 
     @Operation(
-        summary = "Update password", 
+        summary = "Update password with id", 
         description = "Updates a user's password"
     )
     @ApiResponses(value = {
@@ -76,6 +77,33 @@ public class AuthController {
             @PathVariable String userId,
             @Valid @RequestBody PasswordUpdateDTO passwordUpdate) {
         AuthResponseDTO response = authService.updatePassword(userId, passwordUpdate);
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(
+        summary = "Reset password by email", 
+        description = "Resets a user's password using their email address"
+    )
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200", 
+            description = "Password reset successfully"
+        ),
+        @ApiResponse(
+            responseCode = "400", 
+            description = "Invalid request data or user is inactive",
+            content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+        ),
+        @ApiResponse(
+            responseCode = "404", 
+            description = "User not found with the provided email",
+            content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+        )
+    })
+    @PutMapping("/reset-password")
+    public ResponseEntity<AuthResponseDTO> resetPasswordByEmail(
+            @Valid @RequestBody PasswordResetDTO passwordReset) {
+        AuthResponseDTO response = authService.resetPasswordByEmail(passwordReset);
         return ResponseEntity.ok(response);
     }
 }

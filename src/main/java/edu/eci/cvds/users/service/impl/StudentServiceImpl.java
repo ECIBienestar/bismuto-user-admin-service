@@ -198,6 +198,15 @@ public class StudentServiceImpl implements StudentService {
                 .toList();
     }
     
+    @Override
+    @Transactional(readOnly = true)
+    public List<StudentResponseDTO> getAllStudents() {
+        log.info("Retrieving all students");
+        return studentRepository.findAll().stream()
+                .map(this::mapToDto)
+                .toList();
+    }
+
     /**
      * Maps a Student entity to a StudentResponseDTO.
      * 
